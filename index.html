@@ -298,6 +298,38 @@ nav.tabs{ position:fixed; left:0; right:0; bottom:0; z-index:21; padding:8px 12p
 .install .tx{ flex:1; font-size:13.5px; color:var(--muted); } .install .tx b{ display:block; color:var(--text); font-size:15px; }
 .install .btn{ width:auto; flex-shrink:0; }
 .optrow input[type=time]{ height:42px; border-radius:12px; border:1px solid var(--stroke2); background:var(--glass-a); padding:0 10px; color:var(--text); }
+/* avaliação do treino */
+.rv-wrap{ position:relative; }
+.rv-wrap .rv-ta{ padding-right:58px; }
+.mic{ position:absolute; right:8px; bottom:18px; width:44px; height:44px; border-radius:50%; border:0; background:var(--acc); color:#fff; display:grid; place-items:center; box-shadow:0 8px 18px -8px var(--acc); }
+.mic svg{ width:22px; height:22px; }
+.mic.on{ background:#e5484d; box-shadow:0 0 0 0 rgba(229,72,77,.6); animation:micPulse 1.2s ease-out infinite; }
+@keyframes micPulse{ to{ box-shadow:0 0 0 14px rgba(229,72,77,0); } }
+.mic-st{ font-size:12px; color:var(--muted); margin:-4px 0 10px; }
+.stars{ display:flex; align-items:center; gap:4px; margin:4px 0 10px; }
+.stars button{ font-size:32px; line-height:1; background:none; border:0; padding:2px; color:color-mix(in srgb,var(--muted) 35%,transparent); transition:transform .15s,color .15s; }
+.stars button.on{ color:#f2b33d; text-shadow:0 2px 10px rgba(242,179,61,.45); }
+.stars button:active{ transform:scale(1.2); }
+.stars .lbl{ margin-left:8px; font-size:13px; font-weight:700; color:var(--muted); }
+.rv-ta{ width:100%; min-height:90px; border-radius:14px; border:1px solid var(--stroke2); background:var(--glass-a); padding:10px 12px; font:inherit; font-size:14px; color:var(--text); resize:vertical; margin:0 0 10px; }
+.cm-item .st{ color:#f2b33d; letter-spacing:1px; } .cm-item .st span{ color:color-mix(in srgb,var(--muted) 35%,transparent); }
+[data-theme=dark] .rv-ta{ background:rgba(255,255,255,.06); }
+/* comentários nos exercícios */
+.cm{ margin-top:12px; padding-top:12px; border-top:1px solid var(--stroke2); }
+.cm textarea{ width:100%; min-height:78px; border-radius:14px; border:1px solid var(--stroke2); background:var(--glass-a); padding:10px 12px; font:inherit; font-size:14px; color:var(--text); resize:vertical; margin:8px 0; }
+.cm .ctx{ margin:0; }
+.cm .ctx button{ height:34px; font-size:12.5px; padding:0 12px; }
+.cm-item{ padding:11px 12px; border-radius:14px; background:var(--glass-a); border:1px solid var(--stroke); margin-bottom:8px; font-size:13px; line-height:1.45; }
+.cm-item .me b{ font-weight:700; }
+.cm-item .tg{ color:var(--muted); font-size:12px; }
+.cm-item .rp{ margin-top:8px; color:var(--muted); }
+.cm-item .rp b{ color:var(--text); }
+.cm-item .rp i{ font-style:normal; }
+.cm-chg{ margin-top:10px; padding:10px 12px; border-radius:12px; background:color-mix(in srgb,var(--acc) 13%,transparent); border:1px solid color-mix(in srgb,var(--acc) 35%,transparent); color:var(--text); }
+.cm-chg .row{ display:flex; gap:8px; margin-top:8px; }
+.cm-chg .btn{ flex:1; }
+.cm-new{ border-left:4px solid var(--acc); }
+[data-theme=dark] .cm textarea, [data-theme=dark] .cm-item{ background:rgba(255,255,255,.06); }
 /* seletor Treino | Ciclo dentro de Progresso */
 .seg2{ display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:4px; margin-bottom:12px; border-radius:18px; background:var(--glass-b); border:1px solid var(--stroke); }
 .seg2 button{ height:42px; border:0; border-radius:14px; background:none; color:var(--muted); font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; gap:7px; }
@@ -559,6 +591,7 @@ const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(
 
 const BALL = (sz=14) => `<svg class="ballsvg" width="${sz}" height="${sz}" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" fill="#ffb86b"/>${[0,120,240].map(a => `<path d="M0 0L${(11*Math.cos((a-30)*Math.PI/180)).toFixed(2)} ${(11*Math.sin((a-30)*Math.PI/180)).toFixed(2)}A11 11 0 0 1 ${(11*Math.cos((a+30)*Math.PI/180)).toFixed(2)} ${(11*Math.sin((a+30)*Math.PI/180)).toFixed(2)}Z" fill="#a98bff"/>`).join('')}<circle r="3.2" fill="#ffb86b"/><circle r="11" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/></svg>`;
 const ICON = {
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>',
   drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3.3 4.1 6 7.3 6 10.6a6 6 0 0 1-12 0c0-3.3 2.7-6.5 6-10.6z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.6 2.6"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
@@ -679,7 +712,7 @@ function render(){
     html += `<div class="week" role="tablist" aria-label="Dias da semana">` + weekState().map(w => {
       const c = TYPES[PLAN[w.k].type].c, rest = PLAN[w.k].type === 'rest';
       return `<button class="wd ${w.k===S.day?'sel':''} ${w.today?'today':''} ${w.done?'done':''} ${w.part?'part':''} ${rest?'off':''}" style="--c:${c}" data-act="day" data-day="${w.k}" role="tab" aria-selected="${w.k===S.day}" aria-label="${DFULL[w.k]}${w.done?', concluído':''}"><div class="l">${DLABEL[w.k]}</div>${hasFut(dateOfDay(w.k)) ? `<i class="fb">${BALL(13)}</i>` : ''}<div class="s">${w.done?ICON.check.replace('stroke-width="3"','stroke-width="3.5" width="12" height="12"'):''}</div></button>`;
-    }).join('') + `</div>` + installCard() + cyBanner() + spCard() + viewTreino();
+    }).join('') + `</div>` + installCard() + cmCard() + cyBanner() + spCard() + viewTreino();
   }
   if(S.tab === 'progresso') html += `<div class="seg2" role="tablist" aria-label="Progresso"><button data-act="prog" data-v="treino" role="tab" aria-selected="${S.prog !== 'ciclo'}">${ICON.chart}Treino</button><button data-act="prog" data-v="ciclo" role="tab" aria-selected="${S.prog === 'ciclo'}">${ICON.drop}Ciclo</button></div>` + (S.prog === 'ciclo' ? viewCiclo() : viewProgresso(ci));
   if(S.tab === 'joelho') html += viewJoelho();
@@ -708,7 +741,7 @@ function viewTreino(){
     <section class="donecard glass"><div class="big">${ICON.check}</div><h2>Treino concluído</h2><p class="hint" style="color:var(--muted);margin:0">${DFULL[day]}, ${fmtDate(done.date)}</p>
       <div class="stats"><div class="stat"><b>${done.sets}</b><span>séries</span></div><div class="stat"><b>${fmtNum(done.volume)}</b><span>kg de volume</span></div><div class="stat"><b>${mins ? mins + 'min' : '—'}</b><span>duração</span></div></div>
       
-      <button class="btn ghost" data-act="redo">Registrar outro treino hoje</button></section>${futCard(day)}`;
+      <button class="btn ghost" data-act="redo">Registrar outro treino hoje</button></section>${rvCard()}${futCard(day)}`;
   }
   const d = draft(day);
   const total = plan.ex.length, doneCount = plan.ex.filter(e => exDone(d, e)).length;
@@ -746,7 +779,7 @@ function viewTreino(){
   h += `<section class="card glass" style="margin-top:14px"><h3>Como ficou o corpo hoje?</h3><p class="hint">Opcional. Dor no joelho ou na lombar durante o treino, de 0 a 10.</p>
     <div class="pain-val" style="--pc:${pv==null?'var(--dim)':painColor(pv)}"><b>${pv==null?'–':pv}</b><span>${pv==null?'Arraste para registrar':'de 10'}</span></div>
     <input type="range" min="0" max="10" step="1" value="${pv==null?0:pv}" data-k="pain" aria-label="Dor de 0 a 10"><div class="scale"><span>Sem dor</span><span>Dor forte</span></div></section>
-    <button class="btn" data-act="finish" ${anyDone?'':'disabled'}>${doneCount === total ? 'Concluir treino' : anyDone ? `Concluir com ${doneCount} de ${total} exercícios` : 'Marque uma série para concluir'}</button>`;
+    <button class="btn" data-act="finish" ${anyDone?'':'disabled'}>${doneCount === total ? 'Concluir treino' : anyDone ? `Concluir com ${doneCount} de ${total} exercícios` : 'Marque uma série para concluir'}</button>` + (anyDone ? rvCard() : '');
   return h;
 }
 
@@ -1219,7 +1252,7 @@ async function syncPush(sub){
   sub = sub || await (await pushReg()).pushManager.getSubscription();
   if(!sub) return false;
   const r = remind();
-  await api('/subscribe', { sub:sub.toJSON(), am:r.am, pm:r.pm, tz:new Date().getTimezoneOffset() });
+  await api('/subscribe', { sub:sub.toJSON(), am:r.am, pm:r.pm, tz:new Date().getTimezoneOffset(), app:'kika', uid:myUid() });
   return true;
 }
 async function pushTest(){
@@ -1339,6 +1372,12 @@ document.addEventListener('click', e => {
   else if(act === 'settings'){ renderSheet(); document.getElementById('sheet').classList.add('on'); }
   else if(act === 'push'){ subscribePush(); }
   else if(act === 'pushtest'){ pushTest(); }
+  else if(act === 'rv-star'){ S.rvStars = +b.dataset.v; document.querySelectorAll('[data-act="rv-star"]').forEach(x => { const v = +x.dataset.v; x.classList.toggle('on', v <= S.rvStars); x.setAttribute('aria-checked', v === S.rvStars); }); const l = document.getElementById('rv-lbl'); if(l) l.textContent = ['','Ruim','Fraco','Ok','Bom','Ótimo'][S.rvStars]; }
+  else if(act === 'rv-send'){ rvSend(); }
+  else if(act === 'rv-mic'){ micToggle(b); }
+  else if(act === 'rv-again'){ S.rvAgain = true; render(); }
+  else if(act === 'cm-yes' || act === 'cm-no'){ cmDecide(b.dataset.id, act === 'cm-no'); }
+  else if(act === 'cm-seen'){ S.notes.filter(n => n.claude).forEach(n => S.cmSeen.add(n.id)); cmSave(); render(); }
   else if(act === 'cy-first'){
     const d = document.getElementById('cyFirst').value || ymd();
     S.cycle.len = Math.min(45, Math.max(20, parseInt(document.getElementById('cyLen0').value, 10) || 28));
@@ -1508,6 +1547,104 @@ async function spCmd(act){
 }
 document.addEventListener('visibilitychange', () => { if(!document.hidden && SP.tok) spPoll(); });
 
+/* ---------- comentários nos exercícios ----------
+   Ela avalia o treino (estrelas + comentários/dúvidas) → o servidor (Cloudflare) responde na hora com a IA grátis → à noite o Claude revisa e responde,
+   podendo propor mudança no treino, que ela aprova aqui. Nada vai para o Thiago. */
+function myUid(){
+  let u = localStorage.getItem('treino-uid');
+  if(!u || !/^[a-z0-9]{12,40}$/.test(u)){ u = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)).replace(/[^a-z0-9]/g, '').slice(0, 32); localStorage.setItem('treino-uid', u); }
+  return u;
+}
+function cmLoad(){ try{ S.notes = JSON.parse(localStorage.getItem('treino-notes') || '[]'); }catch(e){ S.notes = []; } try{ S.cmSeen = new Set(JSON.parse(localStorage.getItem('treino-notes-seen') || '[]')); }catch(e){ S.cmSeen = new Set(); } }
+function cmSave(){ try{ localStorage.setItem('treino-notes', JSON.stringify(S.notes.slice(-200))); localStorage.setItem('treino-notes-seen', JSON.stringify([...S.cmSeen].slice(-400))); }catch(e){} }
+const cmTyping = () => document.activeElement && document.activeElement.tagName === 'TEXTAREA';
+async function cmFetch(){
+  if(!navigator.onLine) return;
+  try{
+    const r = await api('/notes', { uid:myUid() });
+    const before = JSON.stringify(S.notes);
+    S.notes = r.notes || []; cmSave();
+    if(JSON.stringify(S.notes) !== before && !cmTyping()) render();
+  }catch(e){}
+}
+function cmItem(n){
+  const tags = (n.tags || []).join(' · ');
+  let h = `<div class="cm-item ${n.claude && !S.cmSeen.has(n.id) ? 'cm-new' : ''}"><div class="me"><b>Você · ${fmtDate(n.date)}</b>${n.rating ? ` <span class="st" aria-label="${n.rating} de 5 estrelas">${'★'.repeat(n.rating)}<span>${'★'.repeat(5 - n.rating)}</span></span>` : ''}${tags ? ` <span class="tg">· ${esc(tags)}</span>` : ''}${n.text ? '<br>' + esc(n.text) : ''}</div>`;
+  if(n.ai) h += `<div class="rp"><b>Resposta rápida:</b> ${esc(n.ai.text)}</div>`;
+  h += n.claude ? `<div class="rp"><b>Claude:</b> ${esc(n.claude.text)}</div>` : `<div class="rp"><i>🌙 O Claude revisa com calma à noite.</i></div>`;
+  const c = n.change;
+  if(c){
+    if(c.status === 'proposta') h += `<div class="cm-chg"><b>Sugestão de mudança no treino:</b> ${esc(c.summary)}${c.detail ? '<br><span class="tg">' + esc(c.detail) + '</span>' : ''}<div class="row"><button class="btn sm" data-act="cm-yes" data-id="${n.id}">Aplicar essa mudança</button><button class="btn sm ghost" data-act="cm-no" data-id="${n.id}">Agora não</button></div></div>`;
+    else if(c.status === 'aprovada') h += `<div class="cm-chg">✅ Você aprovou: <b>${esc(c.summary)}</b>. O Claude aplica no seu treino na próxima revisão.</div>`;
+    else if(c.status === 'aplicada') h += `<div class="cm-chg">✅ Aplicado no seu treino: <b>${esc(c.summary)}</b>${c.note ? '<br><span class="tg">' + esc(c.note) + '</span>' : ''}</div>`;
+    else if(c.status === 'recusada') h += `<div class="rp"><i>Você preferiu manter como está.</i></div>`;
+  }
+  return h + `</div>`;
+}
+function rvCard(){
+  const plan = PLAN[S.day], key = 'treino-' + S.day, today = ymd();
+  const mine = (S.notes || []).filter(n => n.ex === key).slice(-2).reverse();
+  const sent = mine.some(n => n.date === today);
+  const st = S.rvStars || 0;
+  let h = `<section class="card glass rv"><h3>⭐ Avaliar treino</h3>`;
+  if(!sent || S.rvAgain){
+    h += `<p class="hint">Como foi o ${esc(plan.tag || 'treino')} de hoje? Dê uma nota e deixe seus comentários ou dúvidas.</p>
+    <div class="stars" role="radiogroup" aria-label="Nota do treino">${[1,2,3,4,5].map(v => `<button data-act="rv-star" data-v="${v}" class="${v <= st ? 'on' : ''}" role="radio" aria-checked="${v === st}" aria-label="${v} ${v === 1 ? 'estrela' : 'estrelas'}">★</button>`).join('')}<span class="lbl" id="rv-lbl">${['Toque para dar a nota','Ruim','Fraco','Ok','Bom','Ótimo'][st]}</span></div>
+    <div class="rv-wrap"><textarea id="rv-text" class="rv-ta" maxlength="1000" placeholder="O que achou do treino? Alguma dúvida? Escreva ou toque no 🎤 e fale." aria-label="Comentários e dúvidas sobre o treino"></textarea>
+    ${SR ? `<button class="mic" data-act="rv-mic" aria-label="Falar em vez de escrever" aria-pressed="false">${ICON.mic}</button>` : ''}</div>
+    <p class="mic-st" id="rv-mic-st">${SR ? 'Toque no 🎤 para falar. Toque de novo para parar.' : 'Dica: use o microfone do teclado para ditar.'}</p>
+    <button class="btn" data-act="rv-send">Enviar avaliação</button>`;
+  } else h += `<p class="hint" style="margin-bottom:10px">Avaliação de hoje enviada. <button class="tbtn" data-act="rv-again">Avaliar de novo</button></p>`;
+  if(mine.length) h += `<div style="margin-top:12px">${mine.map(cmItem).join('')}</div>`;
+  return h + `</section>`;
+}
+// ditado por voz (reconhecimento de fala do Chrome, em português, grátis): o texto entra no campo e ela confere antes de enviar
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null;
+function micStop(){ try{ rec && rec.stop(); }catch(e){} }
+function micToggle(btn){
+  if(rec){ micStop(); return; }
+  const ta = document.getElementById('rv-text'), st = document.getElementById('rv-mic-st');
+  if(!ta || !SR) return;
+  const base = ta.value ? ta.value.replace(/\s*$/, ' ') : '';
+  let finalTxt = '';
+  rec = new SR(); rec.lang = 'pt-BR'; rec.continuous = true; rec.interimResults = true;
+  rec.onresult = e => { let interim = ''; for(let i = e.resultIndex; i < e.results.length; i++){ const r = e.results[i]; if(r.isFinal) finalTxt += r[0].transcript + ' '; else interim += r[0].transcript; } ta.value = (base + finalTxt + interim).slice(0, 1000); };
+  rec.onstart = () => { btn.classList.add('on'); btn.setAttribute('aria-pressed', 'true'); if(st) st.textContent = '🔴 Ouvindo… fale à vontade. Toque no 🎤 para parar.'; };
+  rec.onerror = e => { if(st) st.textContent = e.error === 'not-allowed' ? 'Permita o microfone para o app nas configurações.' : e.error === 'no-speech' ? 'Não ouvi nada. Toque no 🎤 e tente de novo.' : 'O ditado parou. Toque no 🎤 para continuar.'; };
+  rec.onend = () => { rec = null; btn.classList.remove('on'); btn.setAttribute('aria-pressed', 'false'); if(st && st.textContent.startsWith('🔴')) st.textContent = 'Pronto. Confira o texto e envie, ou toque no 🎤 para falar mais.'; ta.value = ta.value.replace(/\s+$/, ''); };
+  try{ rec.start(); }catch(e){ rec = null; }
+}
+async function rvSend(){
+  micStop();
+  const ta = document.getElementById('rv-text'), text = (ta && ta.value || '').trim(), rating = S.rvStars || null;
+  if(!text && !rating){ toast('Dê uma nota ou escreva um comentário'); return; }
+  const plan = PLAN[S.day], d = draft(S.day), today = ymd();
+  const t = S.cycle && S.cycle.periods.length ? cyInfo(today) : null;
+  const lastPain = [...S.pain].sort((a, b) => b.ts - a.ts)[0];
+  const sess = todaySession(S.day);
+  const feito = plan.ex.map(ex => { const sets = (sess && sess.log && sess.log[ex.id]) || ((d.log || {})[ex.id] || []).filter(x => x.done); return sets.length ? `${ex.name} ${sets.length}/${ex.sets}${ex.kind !== 'time' && wtShow(d, ex.id) ? ' (' + wtShow(d, ex.id) + ' ' + U(ex.id) + ')' : ''}` : null; }).filter(Boolean).join('; ');
+  const btn = document.querySelector('[data-act="rv-send"]'); if(btn){ btn.disabled = true; btn.textContent = 'Enviando…'; }
+  try{
+    const r = await api('/note', { uid:myUid(), app:'kika', date:today, ex:'treino-' + S.day, exName:`${plan.tag || ''} · ${plan.title}`.trim(), text, rating,
+      ctx:{ series: plan.ex.map(e => `${e.name} ${e.sets}×${e.reps}`).join('; '), load: feito || 'nenhuma série marcada', phase: t ? CY_PH[t.ph].label : '', pain: lastPain ? lastPain.value : null, obs: plan.note } });
+    S.notes.push(r.note); cmSave(); S.rvStars = 0; S.rvAgain = false; render(); toast('Avaliação enviada');
+    setTimeout(() => { const el = document.querySelector('.rv'); if(el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 100);
+  }catch(e){ toast(navigator.onLine ? 'Não deu pra enviar. Tente de novo.' : 'Sem internet. Tente de novo depois.'); if(btn){ btn.disabled = false; btn.textContent = 'Enviar avaliação'; } }
+}
+function cmCard(){
+  const nw = (S.notes || []).filter(n => n.claude && !S.cmSeen.has(n.id));
+  if(!nw.length) return '';
+  return `<section class="card glass cm-new"><h3>💬 O Claude respondeu ${nw.length === 1 ? 'seu comentário' : nw.length + ' comentários'}</h3>
+    ${nw.slice(-3).map(n => `<p class="hint" style="margin:10px 0 4px"><b style="color:var(--text)">${esc(n.exName)}</b></p>` + cmItem(n)).join('')}
+    <button class="btn sm ghost" data-act="cm-seen">Ok, li</button></section>`;
+}
+async function cmDecide(id, no){
+  try{ const r = await api('/approve', { uid:myUid(), id, no:!!no }); const n = S.notes.find(x => x.id === id); if(n) n.change = r.change; cmSave(); render(); toast(no ? 'Ok, fica como está' : 'Aprovado! O Claude aplica à noite.'); }
+  catch(e){ toast('Não deu pra enviar. Tente de novo.'); }
+}
+document.addEventListener('visibilitychange', () => { if(!document.hidden) cmFetch(); });
+
 /* ---------- tela de abertura: só quando o app abre do zero (não ao voltar de outro app) ---------- */
 function showIntro(){
   const el = document.getElementById('intro');
@@ -1527,6 +1664,7 @@ function showIntro(){
   S.pushOn = !!localStorage.getItem('treino-push-on');
   S.drafts = L.drafts || {}; S.sessions = L.sessions || []; S.pain = L.pain || [];
   S.cycle = Object.assign(cyDefault(), L.cycle || {});
+  cmLoad();
   Object.keys(S.drafts).forEach(k => { if(!S.drafts[k] || S.drafts[k].date !== ymd()) delete S.drafts[k]; });
   const h = location.hash.slice(1); if(['treino','progresso','joelho','guia'].includes(h)) S.tab = h; if(h === 'ciclo'){ S.tab = 'progresso'; S.prog = 'ciclo'; }
   spLoad();
@@ -1534,6 +1672,8 @@ function showIntro(){
   render();
   if(spBack) document.getElementById('intro').classList.add('off'); else showIntro();
   spHandleRedirect().then(back => { if(!back) spStart(); });
+  cmFetch();
+  if(S.pushOn) syncPush().catch(() => {}); // garante que o celular dela está ligado ao aparelho dos comentários
   persistStorage();
   
 })();

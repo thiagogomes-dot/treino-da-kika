@@ -43,6 +43,19 @@ mesma base de código e as mesmas funções, portadas em 2026-11-05.
 - Próximo: aba **Dieta** (esperando o material da nutricionista e os remédios com horários; lembretes de remédio
   pelo mesmo Worker).
 
+## Avaliação do treino (2026-11-05)
+
+- Cartão **⭐ Avaliar treino** (`rvCard`): aparece depois da primeira série marcada e no cartão de treino concluído.
+  Estrelas 1–5 + comentários/dúvidas (texto ou ditado 🎤 pelo SpeechRecognition do Chrome, pt-BR, grátis).
+  O Thiago trocou o comentário por exercício por essa avaliação geral do treino.
+- Envio: `POST /note` no Worker (`push-server/` do Treino TH), com `uid` aleatório do aparelho (`treino-uid`).
+  A IA grátis do Cloudflare (Workers AI, `@cf/meta/llama-3.3-70b-instruct-fp8-fast`) responde na hora.
+- **Nada vai para o Thiago** (pedido dele). Respostas só para ela, no app e por push (subs com `uid` dela).
+- Revisão diária do Claude: tarefa agendada `revisao-treino-kika` (22h, no PC do Thiago), usa
+  `node tools/revisao.mjs pendentes|todas|responder|aplicada` (token admin em `~/.config/treino-th-admin.txt`).
+  Pode propor mudança no plano; ela aprova no app ("Aplicar essa mudança"); a revisão seguinte edita PLAN, sobe o
+  cache, faz commit/push e marca como aplicada.
+
 ## Teste local
 
 `.claude/launch.json` de `K:\CLAUDE` tem `treino-kika` (porta 8791).
