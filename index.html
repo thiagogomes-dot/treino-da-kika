@@ -299,6 +299,11 @@ nav.tabs{ position:fixed; left:0; right:0; bottom:0; z-index:21; padding:8px 12p
 .install .btn{ width:auto; flex-shrink:0; }
 .optrow input[type=time]{ height:42px; border-radius:12px; border:1px solid var(--stroke2); background:var(--glass-a); padding:0 10px; color:var(--text); }
 /* avaliação do treino */
+.cal-ex{ list-style:none; margin:6px 0 2px; padding:0; font-size:12.5px; }
+.cal-ex li{ display:flex; justify-content:space-between; gap:10px; padding:4px 0; color:var(--muted); }
+.cal-ex li span:first-child{ color:var(--text); }
+.rv-in{ margin-top:12px; padding-top:12px; border-top:1px solid var(--stroke); }
+.rv-t{ display:block; font-family:var(--display); font-size:15px; margin-bottom:4px; }
 .rv-wrap{ position:relative; }
 .rv-wrap .rv-ta{ padding-right:58px; }
 .mic{ position:absolute; right:8px; bottom:18px; width:44px; height:44px; border-radius:50%; border:0; background:var(--acc); color:#fff; display:grid; place-items:center; box-shadow:0 8px 18px -8px var(--acc); }
@@ -839,6 +844,8 @@ function viewCalendar(){
     h += `<div class="cal-day"><b>${DFULL[pk]}, ${dt.toLocaleDateString('pt-BR',{day:'numeric',month:'long'})}</b>`;
     ss.forEach(s => { const mins = s.startedAt ? Math.max(1, Math.round((s.finishedAt - s.startedAt)/60000)) + ' min' : 'registro manual';
       h += `<div class="row"><span><span class="dot" style="--c:${TYPES[PLAN[s.day].type].c}"></span>${esc(PLAN[s.day].title)}</span><span>${s.sets ? s.sets + ' séries · ' : ''}${mins}</span></div>`; });
+    ss.forEach(s => { const ids = Object.keys(s.log || {}); if(ids.length) h += `<ul class="cal-ex">${ids.map(id => { const v = s.log[id], ex = ALLEX[id] || { name:id }; const w = Math.max(0, ...v.map(x => +x.w || 0)); return `<li><span>${esc(ex.name)}</span><span>${v.length} ${v.length === 1 ? 'série' : 'séries'}${w ? ' · ' + fmtW(w, id) + ' ' + U(id) : ''}</span></li>`; }).join('')}</ul>`; });
+    if(ss.length && key <= today) h += rvCard(ss[ss.length - 1].day, key, true);
     if(!ss.length && !f) h += `<div class="row"><span>Nenhum check-in neste dia.</span></div>`;
     if(key <= today){
       h += `<div class="acts">`;
@@ -1373,9 +1380,9 @@ document.addEventListener('click', e => {
   else if(act === 'push'){ subscribePush(); }
   else if(act === 'pushtest'){ pushTest(); }
   else if(act === 'rv-star'){ S.rvStars = +b.dataset.v; document.querySelectorAll('[data-act="rv-star"]').forEach(x => { const v = +x.dataset.v; x.classList.toggle('on', v <= S.rvStars); x.setAttribute('aria-checked', v === S.rvStars); }); const l = document.getElementById('rv-lbl'); if(l) l.textContent = ['','Ruim','Fraco','Ok','Bom','Ótimo'][S.rvStars]; }
-  else if(act === 'rv-send'){ rvSend(); }
+  else if(act === 'rv-send'){ rvSend(b.dataset.day || S.day, b.dataset.date || ymd()); }
   else if(act === 'rv-mic'){ micToggle(b); }
-  else if(act === 'rv-again'){ S.rvAgain = true; render(); }
+  else if(act === 'rv-again'){ S.rvAgain = b.dataset.date || ymd(); render(); }
   else if(act === 'cm-yes' || act === 'cm-no'){ cmDecide(b.dataset.id, act === 'cm-no'); }
   else if(act === 'cm-seen'){ S.notes.filter(n => n.claude).forEach(n => S.cmSeen.add(n.id)); cmSave(); render(); }
   else if(act === 'cy-first'){
@@ -1581,22 +1588,21 @@ function cmItem(n){
   }
   return h + `</div>`;
 }
-function rvCard(){
-  const plan = PLAN[S.day], key = 'treino-' + S.day, today = ymd();
-  const mine = (S.notes || []).filter(n => n.ex === key).slice(-2).reverse();
-  const sent = mine.some(n => n.date === today);
-  const st = S.rvStars || 0;
-  let h = `<section class="card glass rv"><h3>⭐ Avaliar treino</h3>`;
-  if(!sent || S.rvAgain){
-    h += `<p class="hint">Como foi o ${esc(plan.tag || 'treino')} de hoje? Dê uma nota e deixe seus comentários ou dúvidas.</p>
+function rvCard(dayKey = S.day, date = ymd(), embed = false){
+  const plan = PLAN[dayKey], key = 'treino-' + dayKey;
+  const mine = (S.notes || []).filter(n => n.ex === key && (!embed || n.date === date)).slice(-2).reverse();
+  const sent = mine.some(n => n.date === date), st = S.rvStars || 0;
+  let h = embed ? `<div class="rv rv-in"><b class="rv-t">⭐ Avaliar este treino</b>` : `<section class="card glass rv"><h3>⭐ Avaliar treino</h3>`;
+  if(!sent || S.rvAgain === date){
+    h += `<p class="hint">Como foi o ${esc(plan.tag || 'treino')} ${date === ymd() ? 'de hoje' : 'de ' + fmtDate(date)}? Dê uma nota e deixe seus comentários ou dúvidas.</p>
     <div class="stars" role="radiogroup" aria-label="Nota do treino">${[1,2,3,4,5].map(v => `<button data-act="rv-star" data-v="${v}" class="${v <= st ? 'on' : ''}" role="radio" aria-checked="${v === st}" aria-label="${v} ${v === 1 ? 'estrela' : 'estrelas'}">★</button>`).join('')}<span class="lbl" id="rv-lbl">${['Toque para dar a nota','Ruim','Fraco','Ok','Bom','Ótimo'][st]}</span></div>
     <div class="rv-wrap"><textarea id="rv-text" class="rv-ta" maxlength="1000" placeholder="O que achou do treino? Alguma dúvida? Escreva ou toque no 🎤 e fale." aria-label="Comentários e dúvidas sobre o treino"></textarea>
     ${SR ? `<button class="mic" data-act="rv-mic" aria-label="Falar em vez de escrever" aria-pressed="false">${ICON.mic}</button>` : ''}</div>
     <p class="mic-st" id="rv-mic-st">${SR ? 'Toque no 🎤 para falar. Toque de novo para parar.' : 'Dica: use o microfone do teclado para ditar.'}</p>
-    <button class="btn" data-act="rv-send">Enviar avaliação</button>`;
-  } else h += `<p class="hint" style="margin-bottom:10px">Avaliação de hoje enviada. <button class="tbtn" data-act="rv-again">Avaliar de novo</button></p>`;
+    <button class="btn" data-act="rv-send" data-day="${dayKey}" data-date="${date}">Enviar avaliação</button>`;
+  } else h += `<p class="hint" style="margin-bottom:10px">Avaliação ${date === ymd() ? 'de hoje ' : ''}enviada. <button class="tbtn" data-act="rv-again" data-date="${date}">Avaliar de novo</button></p>`;
   if(mine.length) h += `<div style="margin-top:12px">${mine.map(cmItem).join('')}</div>`;
-  return h + `</section>`;
+  return h + (embed ? '</div>' : '</section>');
 }
 // ditado por voz (reconhecimento de fala do Chrome, em português, grátis): o texto entra no campo e ela confere antes de enviar
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1615,20 +1621,20 @@ function micToggle(btn){
   rec.onend = () => { rec = null; btn.classList.remove('on'); btn.setAttribute('aria-pressed', 'false'); if(st && st.textContent.startsWith('🔴')) st.textContent = 'Pronto. Confira o texto e envie, ou toque no 🎤 para falar mais.'; ta.value = ta.value.replace(/\s+$/, ''); };
   try{ rec.start(); }catch(e){ rec = null; }
 }
-async function rvSend(){
+async function rvSend(dayKey = S.day, date = ymd()){
   micStop();
   const ta = document.getElementById('rv-text'), text = (ta && ta.value || '').trim(), rating = S.rvStars || null;
   if(!text && !rating){ toast('Dê uma nota ou escreva um comentário'); return; }
-  const plan = PLAN[S.day], d = draft(S.day), today = ymd();
+  const plan = PLAN[dayKey], d = date === ymd() ? draft(dayKey) : { log:{}, wt:{} }, today = date;
   const t = S.cycle && S.cycle.periods.length ? cyInfo(today) : null;
   const lastPain = [...S.pain].sort((a, b) => b.ts - a.ts)[0];
-  const sess = todaySession(S.day);
-  const feito = plan.ex.map(ex => { const sets = (sess && sess.log && sess.log[ex.id]) || ((d.log || {})[ex.id] || []).filter(x => x.done); return sets.length ? `${ex.name} ${sets.length}/${ex.sets}${ex.kind !== 'time' && wtShow(d, ex.id) ? ' (' + wtShow(d, ex.id) + ' ' + U(ex.id) + ')' : ''}` : null; }).filter(Boolean).join('; ');
+  const sess = S.sessions.filter(x => x.date === date && x.day === dayKey).sort((a, b) => b.finishedAt - a.finishedAt)[0];
+  const feito = plan.ex.map(ex => { const sets = (sess && sess.log && sess.log[ex.id]) || (date === ymd() ? ((d.log || {})[ex.id] || []).filter(x => x.done) : []); if(!sets.length) return null; const w = Math.max(0, ...sets.map(x => +x.w || 0)) || (date === ymd() && d.wt ? parseFloat(String(d.wt[ex.id] || '').replace(',', '.')) || 0 : 0); return `${ex.name} ${sets.length}/${ex.sets}${w ? ' (' + fmtNum(w) + ' kg)' : ''}`; }).filter(Boolean).join('; ');
   const btn = document.querySelector('[data-act="rv-send"]'); if(btn){ btn.disabled = true; btn.textContent = 'Enviando…'; }
   try{
-    const r = await api('/note', { uid:myUid(), app:'kika', date:today, ex:'treino-' + S.day, exName:`${plan.tag || ''} · ${plan.title}`.trim(), text, rating,
+    const r = await api('/note', { uid:myUid(), app:'kika', date, ex:'treino-' + dayKey, exName:`${plan.tag || ''} · ${plan.title}`.trim(), text, rating,
       ctx:{ series: plan.ex.map(e => `${e.name} ${e.sets}×${e.reps}`).join('; '), load: feito || 'nenhuma série marcada', phase: t ? CY_PH[t.ph].label : '', pain: lastPain ? lastPain.value : null, obs: plan.note } });
-    S.notes.push(r.note); cmSave(); S.rvStars = 0; S.rvAgain = false; render(); toast('Avaliação enviada');
+    S.notes.push(r.note); cmSave(); S.rvStars = 0; S.rvAgain = null; render(); toast('Avaliação enviada');
     setTimeout(() => { const el = document.querySelector('.rv'); if(el) el.scrollIntoView({ behavior:'smooth', block:'center' }); }, 100);
   }catch(e){ toast(navigator.onLine ? 'Não deu pra enviar. Tente de novo.' : 'Sem internet. Tente de novo depois.'); if(btn){ btn.disabled = false; btn.textContent = 'Enviar avaliação'; } }
 }

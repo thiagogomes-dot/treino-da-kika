@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 
 const API = 'https://treino-th-push.thisangom-91a.workers.dev';
+const APP = 'kika'; // só as avaliações deste app
 const TOKEN = readFileSync(homedir() + '/.config/treino-th-admin.txt', 'utf8').trim();
 const call = async (path, body = {}) => {
   const r = await fetch(API + path, { method:'POST', headers:{ Authorization:'Bearer ' + TOKEN, 'Content-Type':'application/json' }, body:JSON.stringify(body) });
@@ -16,7 +17,7 @@ const call = async (path, body = {}) => {
 const [cmd, file] = process.argv.slice(2);
 if(cmd === 'pendentes' || cmd === 'todas'){
   const { devices } = await call('/admin/notes');
-  const out = devices.map(d => ({ uid:d.uid, app:d.app, notes: cmd === 'todas' ? d.notes : d.notes.filter(n => !n.claude || (n.change && n.change.status === 'aprovada')) })).filter(d => d.notes.length);
+  const out = devices.filter(d => d.app === APP).map(d => ({ uid:d.uid, app:d.app, notes: cmd === 'todas' ? d.notes : d.notes.filter(n => !n.claude || (n.change && n.change.status === 'aprovada')) })).filter(d => d.notes.length);
   console.log(JSON.stringify(out, null, 1));
 } else if(cmd === 'responder'){
   console.log(JSON.stringify(await call('/admin/reply', JSON.parse(readFileSync(file, 'utf8')))));
