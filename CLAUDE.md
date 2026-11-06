@@ -1,0 +1,33 @@
+# CLAUDE.md — Treino da Kika
+
+App web de treino da Erika (Kika): 4 treinos por semana (inferior/superior), protegendo joelhos (condromalácia) e
+lombar (hérnia L5-S1). Publicado em https://thiagogomes-dot.github.io/treino-da-kika/ (repo
+`thiagogomes-dot/treino-da-kika`). Clone local: `C:\Users\Thiago Gomes\projetos\treino-da-kika`.
+
+É um "irmão" do Treino TH do Thiago (`C:\Users\Thiago Gomes\projetos\Treino-Hibrido`, ver o CLAUDE.md de lá):
+mesma base de código e as mesmas funções, portadas em 2026-11-05.
+
+## Regras
+
+- Português do Brasil, respostas curtas. O Thiago aprova antes de mudar; custo zero; nunca ElevenLabs.
+- **A identidade visual da Kika é dela e fica como está** (pedido do Thiago, 2026-11-05): tema claro verde-menta
+  (com modo escuro), fonte Outfit, cores `--inf` #2a9d84 / `--sup` #ec8670, avatar dela. Funções novas usam as
+  variáveis dela (`--acc`, `--bg`, `--glass-a`…), não as cores do Treino TH.
+- Celular dela: Android.
+
+## O que foi portado do Treino TH (2026-11-05)
+
+- `sw.js` (`treino-kika-vN`): cache arquivo a arquivo; aviso do descanso e contagem na tela de bloqueio
+  (+15 s / Pular); lembretes por push com textos dela e mensagem própria nos dias de descanso (qua, sáb, dom).
+  O SW só limpa caches `treino-kika-*` (os dois apps estão no mesmo domínio github.io).
+- Timer: alerta vermelho (#e5484d) nos últimos 10 s, bipe 3-2-1, alarme alto.
+- Ajustes: instalar, testar aviso/som, horários dos lembretes, Spotify.
+- Lembretes: mesmo Cloudflare Worker do Treino TH (`treino-th-push.thisangom-91a.workers.dev`, mesma chave VAPID).
+- Spotify: mesmo app do Spotify do Thiago (Client ID `97a18fb0dd514659bee6f6bfecaad08b`). Precisa da Redirect URI
+  `https://thiagogomes-dot.github.io/treino-da-kika/` e da conta da Erika em **User Management** no painel.
+- Tela de abertura: avatar, "Treino da Kika", "4x por semana, joelho e lombar protegidos.", semana e treino do dia.
+- Removido o código do Artifact (`window.claude`); `localStorage` `treino-erika-v1` mantido (dados dela preservados).
+
+## Teste local
+
+`.claude/launch.json` de `K:\CLAUDE` tem `treino-kika` (porta 8791).
