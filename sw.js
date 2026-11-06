@@ -1,4 +1,4 @@
-const CACHE = 'treino-kika-v4';
+const CACHE = 'treino-kika-v5';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/badge-96.png'];
 const ICON = 'icons/icon-192.png', BADGE = 'icons/badge-96.png';
 
