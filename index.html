@@ -247,7 +247,7 @@ nav.tabs{ position:fixed; left:0; right:0; bottom:0; z-index:21; padding:8px 12p
 .toast{ position:fixed; top:calc(14px + env(safe-area-inset-top,0px)); left:50%; transform:translate(-50%,-20px); opacity:0; z-index:50; padding:11px 16px; border-radius:16px; font-size:13.5px; font-weight:600; transition:all .3s; pointer-events:none; white-space:nowrap; }
 .toast.on{ transform:translate(-50%,0); opacity:1; }
 
-@media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+@media (prefers-reduced-motion: reduce){ *{ transition:none !important; } #intro *{ animation:none !important; } }
 
 /* calendário estilo check-in */
 .cal-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
@@ -288,6 +288,39 @@ nav.tabs{ position:fixed; left:0; right:0; bottom:0; z-index:21; padding:8px 12p
 .futcard .tx span{ font-size:12.5px; color:var(--muted); }
 .futcard .btn{ width:auto; flex-shrink:0; }
 .leg-ball{ display:inline-flex; vertical-align:middle; margin-right:6px; }
+/* últimos 10 segundos do descanso: alerta vermelho pulsando */
+.timer.warn{ border-color:#e5484d !important; box-shadow:0 0 36px -4px #e5484d !important; animation:tpulse 1s ease-in-out infinite; }
+.timer.warn #tclock{ color:#e5484d; }
+.timer.warn #tlabel{ color:#e5484d; opacity:.8; }
+.timer.warn #ringfg{ stroke:#e5484d; }
+@keyframes tpulse{ 50%{ box-shadow:0 0 56px 0 #e5484d; } }
+.install{ display:flex; align-items:center; gap:12px; padding:14px 16px; margin-bottom:12px; }
+.install .tx{ flex:1; font-size:13.5px; color:var(--muted); } .install .tx b{ display:block; color:var(--text); font-size:15px; }
+.install .btn{ width:auto; flex-shrink:0; }
+.optrow input[type=time]{ height:42px; border-radius:12px; border:1px solid var(--stroke2); background:var(--glass-a); padding:0 10px; color:var(--text); }
+/* mini player do Spotify */
+.sp{ display:flex; align-items:center; gap:12px; padding:10px 12px; margin-bottom:12px; border-radius:22px; }
+.sp .cv{ width:48px; height:48px; border-radius:12px; flex-shrink:0; background:var(--glass-a) center/cover; display:grid; place-items:center; }
+.sp .tx{ flex:1; min-width:0; }
+.sp .tx b{ display:block; font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp .tx span{ display:block; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp .tx i{ display:block; font-style:normal; color:var(--acc); font-size:11px; font-weight:700; letter-spacing:.03em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sp .ctl{ display:flex; gap:4px; flex-shrink:0; }
+.sp .ctl button{ width:42px; height:42px; border-radius:50%; border:1px solid var(--stroke2); background:var(--glass-a); display:grid; place-items:center; color:var(--text); }
+.sp .ctl button.pp{ background:var(--acc); border-color:var(--acc); color:#fff; }
+.sp .ctl svg{ width:18px; height:18px; }
+/* tela de abertura */
+#intro{ position:fixed; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; text-align:center;
+  background:radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--acc) 22%, var(--bg)) 0%, var(--bg) 62%); transition:opacity .45s ease, visibility .45s ease; }
+#intro.off{ opacity:0; visibility:hidden; pointer-events:none; }
+#intro img{ width:172px; height:172px; border-radius:46px; box-shadow:0 18px 50px -14px color-mix(in srgb, var(--acc) 70%, transparent), 0 0 0 1px var(--stroke); animation:introPop .7s cubic-bezier(.2,.8,.2,1) both; }
+#intro h1{ font-family:var(--display); font-weight:800; font-size:38px; letter-spacing:-.02em; margin:8px 0 0; color:var(--text); animation:introUp .6s .15s both; }
+#intro p{ margin:0; max-width:290px; color:var(--muted); font-size:15px; line-height:1.45; animation:introUp .6s .25s both; }
+#intro .chip{ margin-top:6px; font-size:13px; animation:introUp .6s .35s both; }
+#intro .tap{ position:absolute; bottom:calc(36px + env(safe-area-inset-bottom,0px)); color:var(--dim); font-size:13px; letter-spacing:.04em; animation:introUp .6s .6s both, tapPulse 2s 1.2s ease-in-out infinite; }
+@keyframes tapPulse{ 50%{ opacity:.45; } }
+@keyframes introPop{ from{ transform:scale(.7); opacity:0; } to{ transform:none; opacity:1; } }
+@keyframes introUp{ from{ transform:translateY(10px); opacity:0; } to{ transform:none; opacity:1; } }
 
 /* ---- Kika: identidade menta + salmão ---- */
 body{ background:linear-gradient(165deg,#d9efe7 0%,#eef4ec 45%,#fbe3d4 100%) fixed; }
@@ -372,6 +405,13 @@ html[data-theme=light]{ color-scheme:only light; }
 </head>
 <body>
 <div class="bg" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div><div class="grain"></div></div>
+<div id="intro" role="dialog" aria-label="Treino da Kika">
+  <img src="icons/icon-512.png" alt="">
+  <h1>Treino da Kika</h1>
+  <p>4x por semana, joelho e lombar protegidos.</p>
+  <span class="chip" id="introWk" style="--c:var(--acc)"></span>
+  <small class="tap">Toque para começar</small>
+</div>
 <main id="app"></main>
 
 <div class="timer glass" id="timer" role="status" aria-live="polite">
@@ -497,40 +537,13 @@ function seed31(){}
 const LS = 'treino-erika-v1';
 function lsLoad(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
 function lsSave(){ try{ localStorage.setItem(LS, JSON.stringify({program:S.program, drafts:S.drafts, sessions:S.sessions, pain:S.pain})); }catch(e){} }
-let DB = null, BASE = null, draftTimer = null;
-
-async function initDb(){
-  try{
-    if(!window.claude || !window.claude.use) return;
-    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
-    if(!db || !user) return;
-    const id = await user.id(); if(!id) return;
-    BASE = 'data/users/' + id;
-    const [p, d, ss, pp] = await Promise.all([
-      db.doc(BASE + '/program').get(),
-      db.doc(BASE + '/drafts').get(),
-      db.collection(BASE + '/logs/sessions').limit(1000).get(),
-      db.collection(BASE + '/logs/pain').limit(1000).get()
-    ]);
-    DB = db; S.sync = 'cloud';
-    if(p.exists){ S.program = JSON.parse(JSON.stringify(p.data())); applyTheme(); } else await safe(() => DB.doc(BASE + '/program').set(S.program));
-    seed31();
-  applyTheme();
-    if(d.exists && d.data().drafts) S.drafts = JSON.parse(JSON.stringify(d.data().drafts));
-    const rs = new Map(ss.docs.map(x => [x.id, x.data()]));
-    for(const s of S.sessions) if(!rs.has(s.id)) await safe(() => DB.doc(BASE + '/logs/sessions/' + s.id).set(s));
-    S.sessions.forEach(s => rs.set(s.id, s)); S.sessions = [...rs.values()].map(x => JSON.parse(JSON.stringify(x)));
-    const rp = new Map(pp.docs.map(x => [x.id, x.data()]));
-    for(const s of S.pain) if(!rp.has(s.id)) await safe(() => DB.doc(BASE + '/logs/pain/' + s.id).set(s));
-    S.pain.forEach(s => rp.set(s.id, s)); S.pain = [...rp.values()].map(x => JSON.parse(JSON.stringify(x)));
-    lsSave(); render();
-  }catch(e){ S.sync = 'local'; render(); }
-}
-async function safe(fn){ try{ await fn(); }catch(e){ if(e && e.code === 'quota_exceeded') toast('Armazenamento cheio. Os dados ficam só neste aparelho.'); S.sync = 'local'; } }
-function saveProgram(){ lsSave(); if(DB) safe(() => DB.doc(BASE + '/program').set(S.program)); }
-function saveDrafts(){ lsSave(); clearTimeout(draftTimer); draftTimer = setTimeout(() => { if(DB) safe(() => DB.doc(BASE + '/drafts').set({drafts:S.drafts})); }, 800); }
-function saveSession(s){ lsSave(); if(DB) safe(() => DB.doc(BASE + '/logs/sessions/' + s.id).set(s)); }
-function savePain(p){ lsSave(); if(DB) safe(() => DB.doc(BASE + '/logs/pain/' + p.id).set(p)); }
+// tudo fica no aparelho (localStorage). Backup por copiar/colar nos Ajustes.
+function saveProgram(){ lsSave(); }
+function saveDrafts(){ lsSave(); }
+function saveSession(s){ lsSave(); }
+function savePain(p){ lsSave(); }
+// pede ao navegador para não apagar os dados do app quando faltar espaço
+function persistStorage(){ try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){} }
 
 /* ---------- lógica ---------- */
 const blankSets = ex => Array.from({length:ex.sets}, () => ({w:'', r:'', done:false}));
@@ -599,7 +612,7 @@ function render(){
   const ci = cycleInfo();
   const pct = Math.min(100, Math.round(ci.done / ci.planned * 100));
   const tpct = Math.round(ci.elapsed / ci.total * 100);
-  const syncTxt = S.sync === 'cloud' ? 'Salvo na sua conta' : 'Salvo neste aparelho';
+  const syncTxt = 'Salvo neste aparelho';
   let html = `
   <header class="top">
     <div>
@@ -620,7 +633,7 @@ function render(){
     html += `<div class="week" role="tablist" aria-label="Dias da semana">` + weekState().map(w => {
       const c = TYPES[PLAN[w.k].type].c, rest = PLAN[w.k].type === 'rest';
       return `<button class="wd ${w.k===S.day?'sel':''} ${w.today?'today':''} ${w.done?'done':''} ${w.part?'part':''} ${rest?'off':''}" style="--c:${c}" data-act="day" data-day="${w.k}" role="tab" aria-selected="${w.k===S.day}" aria-label="${DFULL[w.k]}${w.done?', concluído':''}"><div class="l">${DLABEL[w.k]}</div>${hasFut(dateOfDay(w.k)) ? `<i class="fb">${BALL(13)}</i>` : ''}<div class="s">${w.done?ICON.check.replace('stroke-width="3"','stroke-width="3.5" width="12" height="12"'):''}</div></button>`;
-    }).join('') + `</div>` + viewTreino();
+    }).join('') + `</div>` + installCard() + spCard() + viewTreino();
   }
   if(S.tab === 'progresso') html += viewProgresso(ci);
   if(S.tab === 'joelho') html += viewJoelho();
@@ -852,10 +865,16 @@ function renderSheet(){
     <div class="field"><label for="prior">Treinos feitos antes de usar o app</label><input type="number" inputmode="numeric" min="0" id="prior" data-k="prior" value="${P.prior || 0}" style="width:100%;height:48px;border-radius:14px;border:1px solid var(--stroke2);background:rgba(255,255,255,.8);padding:0 14px"></div>
     <div class="row" style="margin-bottom:10px"><button class="btn ghost" data-act="newcycle">Começar novo ciclo hoje</button></div>
     <h4>No celular</h4>
-    <div class="optrow"><p>Avisos do descanso<small>${notifState()}</small></p>${('Notification' in window) && Notification.permission !== 'granted' && Notification.permission !== 'denied' ? '<button class="btn sm" data-act="notif">Ativar</button>' : ''}</div>
+    ${installRow()}
+    <div class="optrow"><p>Aviso do fim do descanso<small>${notifState()}</small></p>${notifOk() ? '<button class="btn sm ghost" data-act="testrest">Testar (5 s)</button>' : ('Notification' in window) && Notification.permission !== 'denied' ? '<button class="btn sm" data-act="notif">Ativar</button>' : ''}</div>
+    <div class="optrow"><p>Som do alarme<small>Usa o volume de mídia do celular. Deixe alto no treino.</small></p><button class="btn sm ghost" data-act="testsound">Testar som</button></div>
     <div class="optrow"><p>Manter tela ligada no treino<small>Evita que o celular bloqueie e pause o timer</small></p><button class="btn sm ${P.wake === false ? 'ghost' : ''}" data-act="wake" aria-pressed="${P.wake !== false}">${P.wake === false ? 'Desligado' : 'Ligado'}</button></div>
-    ${PWA ? `<h4>Lembrete de treino</h4>
-    <div class="optrow"><p>Push às 6h e às 19h<small>${S.pushCode ? 'Ativado neste celular. Copie o código e coloque no GitHub (passo 5 do guia).' : 'Seg a sex. Às 19h, se o treino já foi feito, vira lembrete do check-in do joelho.'}</small></p><button class="btn sm ${S.pushCode ? 'ghost' : ''}" data-act="${S.pushCode ? 'copypush' : 'push'}">${S.pushCode ? 'Copiar código' : 'Ativar'}</button></div>` : ''}
+    ${PWA ? `<h4>Lembretes de treino</h4>
+    <div class="optrow"><p>Manhã<small>Primeiro lembrete do dia</small></p><input type="time" data-k="ram" value="${remind().am}" aria-label="Horário do lembrete da manhã"></div>
+    <div class="optrow"><p>Noite<small>Se o treino já foi feito, vira o check-in do joelho</small></p><input type="time" data-k="rpm" value="${remind().pm}" aria-label="Horário do lembrete da noite"></div>
+    <div class="optrow"><p>Receber neste celular<small>${S.pushOn ? 'Ativado. Os lembretes chegam nos horários acima, todo dia.' : 'Liga os lembretes de manhã e de noite neste celular.'}</small></p>${S.pushOn ? '<button class="btn sm ghost" data-act="pushtest">Testar</button><button class="btn sm ghost" data-act="pushoff">Desligar</button>' : '<button class="btn sm" data-act="push">Ativar</button>'}</div>` : ''}
+    ${spEnabled() ? `<h4>Música</h4>
+    <div class="optrow"><p>Spotify<small>${SP.tok ? 'Conectado. Controle a música pela tela de treino.' : 'Tocar, pausar e pular música sem sair do app (precisa do Premium).'}</small></p>${SP.tok ? '<button class="btn sm ghost" data-act="sp-off">Desconectar</button>' : '<button class="btn sm" data-act="sp-on">Conectar</button>'}</div>` : ''}
     <h4>Backup dos dados</h4>
     <div class="optrow"><p>Copiar backup<small>Leva seu histórico pra outro aparelho ou versão do app</small></p><button class="btn sm ghost" data-act="export">Copiar</button></div>
     <textarea class="bk" id="bk" placeholder="Cole aqui um backup para importar" aria-label="Backup"></textarea>
@@ -864,41 +883,126 @@ function renderSheet(){
 }
 
 /* ---------- timer ---------- */
-const TM = { end:0, total:0, int:null };
-let actx = null;
-function unlockAudio(){ try{ actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if(actx.state === 'suspended') actx.resume(); }catch(e){} }
-function beep(){
-  try{ if(!actx) return; [0, .22, .44].forEach(t => { const o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = 880; o.connect(g); g.connect(actx.destination); g.gain.setValueAtTime(.0001, actx.currentTime+t); g.gain.exponentialRampToValueAtTime(.25, actx.currentTime+t+.02); g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime+t+.18); o.start(actx.currentTime+t); o.stop(actx.currentTime+t+.2); }); }catch(e){}
-  try{ navigator.vibrate && navigator.vibrate([200,100,200]); }catch(e){}
-}
-function notifState(){
-  if(!('Notification' in window)) return 'Não suportado neste navegador';
-  if(Notification.permission === 'granted') return 'Ativados';
-  if(Notification.permission === 'denied') return 'Bloqueados nas configurações do navegador';
-  return 'Toca quando o descanso acabar, mesmo fora do app';
-}
-async function notify(title, body){
+const TM = { end:0, total:0, int:null, next:'', lastSec:-1 };
+let actx = null, amaster = null;
+// cadeia de áudio: tudo passa por ganho alto + compressor (soa bem mais alto sem estourar)
+function unlockAudio(){
   try{
-    if(!('Notification' in window) || Notification.permission !== 'granted') return;
-    const reg = navigator.serviceWorker && await navigator.serviceWorker.getRegistration();
-    const opt = { body, tag:'descanso', renotify:true, vibrate:[300,120,300] };
-    if(reg) reg.showNotification(title, opt); else new Notification(title, opt);
+    if(!actx){
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      const comp = actx.createDynamicsCompressor();
+      comp.threshold.value = -12; comp.knee.value = 0; comp.ratio.value = 20; comp.attack.value = .001; comp.release.value = .08;
+      amaster = actx.createGain(); amaster.gain.value = 2.2;
+      amaster.connect(comp); comp.connect(actx.destination);
+    }
+    if(actx.state === 'suspended') actx.resume();
   }catch(e){}
 }
-const PWA = false;
-const VAPID = 'BE5B0Ayjsno89XmRhys7_bUgZcSjtb_AasPslLLp7Cjj-YlcSKsTDv03IlL5WrIKqlOns_mmAQC013x5cdXITJg';
+function tone(f, t, dur, vol = 1, type = 'square'){
+  const o = actx.createOscillator(), g = actx.createGain(), t0 = actx.currentTime + t;
+  o.type = type; o.frequency.value = f; o.connect(g); g.connect(amaster);
+  g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + .01);
+  g.gain.setValueAtTime(vol, t0 + dur - .03); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+  o.start(t0); o.stop(t0 + dur + .02);
+}
+// bipe curto da contagem 3, 2, 1
+function countBeep(){ try{ if(actx){ unlockAudio(); tone(1046, 0, .12, .7); } }catch(e){} try{ navigator.vibrate && navigator.vibrate(90); }catch(e){} }
+// alarme do fim do descanso: 3 pares de bipes agudos
+function beep(){
+  try{ if(actx){ unlockAudio(); for(let i = 0; i < 3; i++){ tone(1318, i*.45, .16, 1); tone(1760, i*.45 + .18, .2, 1); } } }catch(e){}
+  try{ navigator.vibrate && navigator.vibrate([400,120,400,120,700]); }catch(e){}
+}
+const PWA = ('serviceWorker' in navigator) && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+const notifOk = () => PWA && ('Notification' in window) && Notification.permission === 'granted';
+function notifState(){
+  if(!('Notification' in window)) return 'Não suportado neste navegador';
+  if(Notification.permission === 'granted') return 'Ativado. Toca mesmo com a tela bloqueada.';
+  if(Notification.permission === 'denied') return 'Bloqueado. Libere em Configurações → Apps → Treino da Kika → Notificações.';
+  return 'Notifica quando o descanso acabar, mesmo com a tela bloqueada';
+}
+// o aviso com tela bloqueada é mostrado pelo service worker (sw.js), que segura o horário mesmo se a página congelar
+async function swPost(msg){
+  try{
+    if(!PWA) return false;
+    const reg = await navigator.serviceWorker.getRegistration();
+    const sw = reg && (reg.active || reg.waiting || reg.installing);
+    if(sw){ sw.postMessage(msg); return true; }
+  }catch(e){}
+  return false;
+}
+function scheduleRest(){ if(notifOk()) swPost({ type:'rest', end:TM.end, total:TM.total, next:TM.next }); }
+// botões da notificação (+15 s / Pular) mexem no timer do app
+if(PWA) navigator.serviceWorker.addEventListener('message', e => {
+  const d = e.data || {};
+  if(d.type === 'rest-sync'){ TM.end = d.end; TM.total = Math.max(TM.total, d.total || 0); if(!TM.int) TM.int = setInterval(tick, 200); tick(); }
+  if(d.type === 'rest-skip'){ clearInterval(TM.int); TM.int = null; document.getElementById('timer').classList.remove('on','end','warn'); }
+});
+function cancelRest(){ swPost({ type:'rest-cancel' }); }
+function askNotifOnce(){
+  try{
+    if(!PWA || !('Notification' in window) || Notification.permission !== 'default' || localStorage.getItem('treino-notif-asked')) return;
+    localStorage.setItem('treino-notif-asked', '1');
+    Notification.requestPermission().then(p => { if(p === 'granted'){ toast('Aviso do descanso ativado'); scheduleRest(); } });
+  }catch(e){}
+}
+const remind = () => Object.assign({ am:'06:00', pm:'21:00' }, S.program.remind || {});
+const VAPID = 'BNZaASVC1qqscvLwT2pBtH8cNoaVsdG2TypnZvv0ouv_FaBLsPbbY9OP4ATlRK99LpzKeZ-i38FQc2IOeJy8EV8';
 function b64u(str){ const p = '='.repeat((4 - str.length % 4) % 4), b = atob((str + p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(b, c => c.charCodeAt(0)); }
+const PUSH_API = 'https://treino-th-push.thisangom-91a.workers.dev';
+async function pushReg(){ return Promise.race([navigator.serviceWorker.ready, new Promise((_, r) => setTimeout(() => r(new Error('sw')), 8000))]); }
+async function api(path, body){
+  const r = await fetch(PUSH_API + path, { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(body) });
+  if(!r.ok) throw new Error('api ' + r.status);
+  return r.json();
+}
 async function subscribePush(){
   try{
     if(Notification.permission !== 'granted' && await Notification.requestPermission() !== 'granted'){ toast('Permita notificações pra receber o lembrete'); return; }
-    const reg = await navigator.serviceWorker.ready;
-    const sub = await reg.pushManager.getSubscription() || await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey:b64u(VAPID) });
-    S.pushCode = JSON.stringify(sub); localStorage.setItem('treino-push', S.pushCode);
-    renderSheet(); copyText(S.pushCode, 'Código copiado. Cole no secret PUSH_SUB do GitHub.');
-  }catch(e){ toast('Não foi possível ativar. Instale o app na tela inicial e tente de novo.'); }
+    const reg = await pushReg(), key = b64u(VAPID);
+    let sub = await reg.pushManager.getSubscription();
+    if(sub && sub.options && sub.options.applicationServerKey && bytesToB64(sub.options.applicationServerKey) !== bytesToB64(key)){ await sub.unsubscribe(); sub = null; }
+    if(!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey:key });
+    await syncPush(sub);
+    S.pushOn = true; localStorage.setItem('treino-push-on', '1'); localStorage.removeItem('treino-push');
+    renderSheet(); toast('Lembretes ativados');
+  }catch(e){ toast(String(e).includes('api') ? 'Servidor de lembretes não respondeu. Tente de novo.' : 'Não foi possível ativar. Abra pelo app instalado e tente de novo.'); }
+}
+function bytesToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+async function syncPush(sub){
+  sub = sub || await (await pushReg()).pushManager.getSubscription();
+  if(!sub) return false;
+  const r = remind();
+  await api('/subscribe', { sub:sub.toJSON(), am:r.am, pm:r.pm, tz:new Date().getTimezoneOffset() });
+  return true;
+}
+async function pushTest(){
+  try{ const sub = await (await pushReg()).pushManager.getSubscription(); if(!sub){ S.pushOn = false; renderSheet(); return; } const r = await api('/test', { endpoint:sub.endpoint }); toast(r.ok ? 'Lembrete de teste enviado' : 'O teste falhou (' + r.status + ')'); }
+  catch(e){ toast('Servidor de lembretes não respondeu'); }
+}
+async function pushOff(){
+  try{ const sub = await (await pushReg()).pushManager.getSubscription(); if(sub){ await api('/unsubscribe', { endpoint:sub.endpoint }).catch(() => {}); await sub.unsubscribe(); } }catch(e){}
+  S.pushOn = false; localStorage.removeItem('treino-push-on'); renderSheet(); toast('Lembretes desligados');
 }
 function copyText(t, msg){ const ok = () => toast(msg); if(navigator.clipboard) navigator.clipboard.writeText(t).then(ok, () => toast('Não deu pra copiar automaticamente')); }
 async function markTrained(){ try{ const c = await caches.open('treino-state'); await c.put('/last-session', new Response(ymd())); }catch(e){} }
+
+/* ---------- instalação ---------- */
+let installEvt = null;
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if(S.program) render(); });
+window.addEventListener('appinstalled', () => { installEvt = null; toast('Treino da Kika instalado'); render(); });
+function installRow(){
+  if(isStandalone()) return '';
+  if(installEvt) return `<div class="optrow"><p>Instalar o app<small>Abre em tela cheia, como app, e libera os avisos</small></p><button class="btn sm" data-act="install">Instalar</button></div>`;
+  if(isIOS()) return `<div class="optrow"><p>Instalar no iPhone<small>Toque em Compartilhar → Adicionar à Tela de Início</small></p></div>`;
+  return '';
+}
+function installCard(){
+  if(isStandalone() || S.program.hideInstall || !(installEvt || isIOS())) return '';
+  return `<section class="install glass"><div class="tx"><b>Instale o Treino da Kika</b>${installEvt ? 'Fica na tela inicial e avisa o fim do descanso com a tela bloqueada.' : 'No iPhone: Compartilhar → Adicionar à Tela de Início.'}</div>${installEvt ? '<button class="btn sm" data-act="install">Instalar</button>' : ''}<button class="tbtn" data-act="hideinstall" aria-label="Dispensar">✕</button></section>`;
+}
+
 let WL = null;
 async function wakeOn(){
   try{ if(S.program.wake === false || !('wakeLock' in navigator) || WL || document.hidden) return; WL = await navigator.wakeLock.request('screen'); WL.addEventListener('release', () => { WL = null; }); }catch(e){}
@@ -909,19 +1013,22 @@ document.addEventListener('visibilitychange', () => {
   if(TM.int) tick();
   const d = S.drafts[S.day]; if(d && d.date === ymd() && Object.values(d.log || {}).some(a => a.some(x => x.done))) wakeOn();
 });
-function startTimer(sec){ if(!sec) return; TM.total = sec; TM.end = Date.now() + sec*1000; clearInterval(TM.int); TM.int = setInterval(tick, 250); tick(); }
-function stopTimer(){ clearInterval(TM.int); TM.int = null; const el = document.getElementById('timer'); el.classList.remove('on','end'); }
+function startTimer(sec, next = ''){ if(!sec) return; TM.total = sec; TM.end = Date.now() + sec*1000; TM.next = next; TM.lastSec = -1; clearInterval(TM.int); TM.int = setInterval(tick, 200); tick(); scheduleRest(); }
+function stopTimer(){ clearInterval(TM.int); TM.int = null; const el = document.getElementById('timer'); el.classList.remove('on','end','warn'); cancelRest(); }
 function tick(){
   const el = document.getElementById('timer');
   const left = Math.max(0, Math.ceil((TM.end - Date.now())/1000));
   el.classList.add('on');
   document.getElementById('tclock').textContent = Math.floor(left/60) + ':' + z(left%60);
   document.getElementById('ringfg').setAttribute('stroke-dashoffset', (119.4 * (1 - left / TM.total)).toFixed(1));
+  el.classList.toggle('warn', left > 0 && left <= 10);
+  if(left > 0 && left <= 3 && left !== TM.lastSec && !document.hidden) countBeep();
+  TM.lastSec = left;
   if(left <= 0){
     clearInterval(TM.int); TM.int = null;
     el.classList.add('end'); document.getElementById('tlabel').textContent = 'Próxima série';
-    beep(); if(document.hidden) notify('Descanso acabou', 'Hora da próxima série'); setTimeout(() => { if(!TM.int) stopTimer(); }, 4000);
-  } else { el.classList.remove('end'); document.getElementById('tlabel').textContent = 'Descanso'; }
+    beep(); setTimeout(() => { if(!TM.int){ el.classList.remove('on','end','warn'); } }, 4000);
+  } else { el.classList.remove('end'); document.getElementById('tlabel').textContent = left <= 10 ? 'Prepare-se' : 'Descanso'; }
 }
 
 function toast(msg){ const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 2400); }
@@ -938,7 +1045,7 @@ document.addEventListener('click', e => {
     const plan = PLAN[S.day], ex = plan.ex.find(x => x.id === b.dataset.ex);
     const d = draft(S.day), sets = exSets(d, ex);
     if(act === 'undoset'){ const k = sets.map(x => x.done).lastIndexOf(true); if(k >= 0) sets[k].done = false; stopTimer(); saveDrafts(); render(); return; }
-    wakeOn();
+    wakeOn(); askNotifOnce();
     const i = sets.findIndex(x => !x.done); if(i < 0) return;
     const s = sets[i];
     s.done = true;
@@ -952,8 +1059,8 @@ document.addEventListener('click', e => {
       if(exDone(d, ex)){
         const next = plan.ex.find(x => !exDone(d, x));
         S.open[S.day] = next ? next.id : null;
-        if(ex.rest && next) startTimer(ex.rest);
-      } else startTimer(ex.rest);
+        if(ex.rest && next) startTimer(ex.rest, next.name);
+      } else startTimer(ex.rest, ex.name + ' · série ' + (i+2));
     }
     saveDrafts(); render();
   }
@@ -978,13 +1085,21 @@ document.addEventListener('click', e => {
   else if(act === 'futtoggle'){ const f = S.program.fut = S.program.fut || [], k = b.dataset.date, i = f.indexOf(k); if(i >= 0) f.splice(i, 1); else f.push(k); saveProgram(); render(); toast(i >= 0 ? 'Futevôlei removido' : 'Futevôlei registrado 🏐'); }
   else if(act === 'calfut'){ const f = S.program.fut = S.program.fut || [], k = b.dataset.date, i = f.indexOf(k); if(i >= 0) f.splice(i, 1); else f.push(k); saveProgram(); render(); toast(i >= 0 ? 'Futevôlei removido' : 'Futevôlei registrado'); }
   else if(act === 'calmark'){ const k = b.dataset.date, t = parseYmd(k).setHours(19,0,0,0); const sess = { id:uid('s'), day:b.dataset.day, date:k, startedAt:null, finishedAt:t, log:{}, sets:0, volume:0, pain:null, manual:true }; S.sessions.push(sess); saveSession(sess); render(); toast('Check-in registrado'); }
-  else if(act === 'calunmark'){ const k = b.dataset.date; S.sessions.filter(s => s.manual && s.date === k).forEach(s => { if(DB) safe(() => DB.doc(BASE + '/logs/sessions/' + s.id).delete()); }); S.sessions = S.sessions.filter(s => !(s.manual && s.date === k)); lsSave(); render(); toast('Registro removido'); }
+  else if(act === 'calunmark'){ const k = b.dataset.date; S.sessions = S.sessions.filter(s => !(s.manual && s.date === k)); lsSave(); render(); toast('Registro removido'); }
   else if(act === 'ctx'){ S.painCtx = b.dataset.ctx; render(); }
   else if(act === 'savepain'){ const p = { id:uid('p'), date:ymd(), ts:Date.now(), value:S.painDraft, ctx:S.painCtx }; S.pain.push(p); savePain(p); render(); toast('Registro salvo'); }
   else if(act === 'settings'){ renderSheet(); document.getElementById('sheet').classList.add('on'); }
   else if(act === 'push'){ subscribePush(); }
-  else if(act === 'copypush'){ copyText(S.pushCode, 'Código copiado. Cole no secret PUSH_SUB do GitHub.'); }
-  else if(act === 'notif'){ if('Notification' in window) Notification.requestPermission().then(() => { renderSheet(); if(Notification.permission === 'granted') toast('Avisos ativados'); }); }
+  else if(act === 'pushtest'){ pushTest(); }
+  else if(act === 'sp-on'){ spConnect(); }
+  else if(act === 'sp-off'){ SP.tok = null; SP.now = null; spSave(); clearInterval(SP.poll); renderSheet(); render(); toast('Spotify desconectado'); }
+  else if(act.startsWith('sp-')){ spCmd(act); }
+  else if(act === 'pushoff'){ pushOff(); }
+  else if(act === 'notif'){ if('Notification' in window) Notification.requestPermission().then(() => { renderSheet(); if(Notification.permission === 'granted') toast('Aviso do descanso ativado'); }); }
+  else if(act === 'testrest'){ swPost({ type:'rest', end:Date.now() + 5000, total:5, next:'teste do aviso', force:true }).then(ok => toast(ok ? 'Bloqueie a tela: o aviso chega em 5 s' : 'Service worker ainda não está ativo. Recarregue o app.')); }
+  else if(act === 'testsound'){ unlockAudio(); beep(); }
+  else if(act === 'install'){ if(installEvt){ installEvt.prompt(); installEvt.userChoice.finally(() => { installEvt = null; render(); renderSheet(); }); } }
+  else if(act === 'hideinstall'){ S.program.hideInstall = true; saveProgram(); render(); }
   else if(act === 'wake'){ S.program.wake = S.program.wake === false; saveProgram(); if(S.program.wake === false) wakeOff(); renderSheet(); }
   else if(act === 'export'){
     const txt = JSON.stringify({app:'treino-erika', v:1, program:S.program, sessions:S.sessions, pain:S.pain});
@@ -999,7 +1114,6 @@ document.addEventListener('click', e => {
     const mp = new Map(S.pain.map(x => [x.id, x])); (B.pain || []).forEach(x => mp.set(x.id, x)); S.pain = [...mp.values()];
     if(B.program) S.program = Object.assign({}, B.program, {seed31:true});
     saveProgram();
-    if(DB){ (B.sessions || []).forEach(x => safe(() => DB.doc(BASE + '/logs/sessions/' + x.id).set(x))); (B.pain || []).forEach(x => safe(() => DB.doc(BASE + '/logs/pain/' + x.id).set(x))); }
     lsSave(); renderSheet(); render(); toast((B.sessions || []).length + ' treinos importados');
   }
   else if(act === 'closesheet'){ document.getElementById('sheet').classList.remove('on'); render(); }
@@ -1007,8 +1121,8 @@ document.addEventListener('click', e => {
   else if(act === 'wunit'){ (S.program.units = S.program.units || {})[b.dataset.ex] = b.dataset.v; saveProgram(); render(); }
   else if(act === 'weeks'){ S.program.weeks = +b.dataset.w; saveProgram(); renderSheet(); render(); }
   else if(act === 'newcycle'){ S.program.start = ymd(); S.program.prior = 0; saveProgram(); renderSheet(); render(); toast('Novo ciclo iniciado'); }
-  else if(act === 't-15'){ TM.end -= 15000; if(TM.end < Date.now()) TM.end = Date.now(); tick(); }
-  else if(act === 't+15'){ if(!TM.int){ TM.end = Date.now(); TM.int = setInterval(tick, 250); } TM.end += 15000; TM.total = Math.max(TM.total, Math.ceil((TM.end-Date.now())/1000)); tick(); }
+  else if(act === 't-15'){ TM.end -= 15000; if(TM.end < Date.now()) TM.end = Date.now(); tick(); scheduleRest(); }
+  else if(act === 't+15'){ if(!TM.int){ TM.end = Date.now(); TM.int = setInterval(tick, 250); } TM.end += 15000; TM.total = Math.max(TM.total, Math.ceil((TM.end-Date.now())/1000)); tick(); scheduleRest(); }
   else if(act === 'tskip'){ stopTimer(); }
 });
 document.getElementById('sheet').addEventListener('click', e => { if(e.target.id === 'sheet'){ e.currentTarget.classList.remove('on'); render(); } });
@@ -1025,19 +1139,135 @@ document.addEventListener('change', e => {
   if(k === 'start' && t.value){ S.program.start = t.value; saveProgram(); render(); }
   if(k === 'prior'){ S.program.prior = Math.max(0, parseInt(t.value, 10) || 0); saveProgram(); render(); }
   if(k === 'pain') render();
+  if((k === 'ram' || k === 'rpm') && t.value){ S.program.remind = Object.assign(remind(), { [k === 'ram' ? 'am' : 'pm']: t.value }); saveProgram(); if(S.pushOn) syncPush().then(() => toast('Horário salvo'), () => toast('Salvo no app; o servidor não respondeu')); else toast('Horário salvo'); }
 });
+
+/* ---------- Spotify (Web API com login PKCE, sem servidor; controla o Spotify que está tocando no celular) ---------- */
+const SPOTIFY_ID = '97a18fb0dd514659bee6f6bfecaad08b';
+const SP_REDIRECT = location.origin + location.pathname;
+const SP_SCOPES = 'user-read-playback-state user-modify-playback-state user-read-currently-playing';
+const SP = { tok:null, now:null, poll:null };
+const spEnabled = () => !SPOTIFY_ID.startsWith('__');
+const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const SPI = {
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
+  next:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5.5v13l9-6.5zM16 5h2.5v14H16z"/></svg>',
+  prev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5.5v13l-9-6.5zM5.5 5H8v14H5.5z"/></svg>',
+  note:'<svg viewBox="0 0 24 24" fill="var(--acc)" width="22" height="22"><path d="M9 17.5a2.5 2.5 0 1 1-2-2.45V5l11-2v11.5a2.5 2.5 0 1 1-2-2.45V7.1l-7 1.3z"/></svg>'
+};
+function spLoad(){ try{ SP.tok = JSON.parse(localStorage.getItem('treino-sp') || 'null'); }catch(e){ SP.tok = null; } }
+function spSave(){ try{ SP.tok ? localStorage.setItem('treino-sp', JSON.stringify(SP.tok)) : localStorage.removeItem('treino-sp'); }catch(e){} }
+async function spConnect(){
+  const v = b64url(crypto.getRandomValues(new Uint8Array(48)));
+  const ch = b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)));
+  const st = b64url(crypto.getRandomValues(new Uint8Array(12)));
+  localStorage.setItem('treino-sp-pkce', JSON.stringify({ v, st }));
+  location.href = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({ client_id:SPOTIFY_ID, response_type:'code', redirect_uri:SP_REDIRECT, code_challenge_method:'S256', code_challenge:ch, scope:SP_SCOPES, state:st });
+}
+async function spToken(params){
+  const r = await fetch('https://accounts.spotify.com/api/token', { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body:new URLSearchParams({ client_id:SPOTIFY_ID, ...params }) });
+  if(!r.ok) throw new Error('token ' + r.status);
+  const j = await r.json();
+  SP.tok = { access:j.access_token, refresh:j.refresh_token || (SP.tok && SP.tok.refresh), exp:Date.now() + (j.expires_in - 60) * 1000 };
+  spSave();
+}
+// volta do login do Spotify: troca o código pelo token e limpa a URL
+async function spHandleRedirect(){
+  const q = new URLSearchParams(location.search);
+  if(!q.has('code') && !q.has('error')) return false;
+  let pk = null; try{ pk = JSON.parse(localStorage.getItem('treino-sp-pkce') || 'null'); }catch(e){}
+  localStorage.removeItem('treino-sp-pkce');
+  history.replaceState(null, '', SP_REDIRECT);
+  if(q.has('error') || !pk || q.get('state') !== pk.st){ toast('Spotify não conectado'); return true; }
+  try{ await spToken({ grant_type:'authorization_code', code:q.get('code'), redirect_uri:SP_REDIRECT, code_verifier:pk.v }); toast('Spotify conectado 🎵'); render(); spStart(); }
+  catch(e){ toast('Não deu pra conectar o Spotify'); }
+  return true;
+}
+async function spFetch(path, opt = {}, retry = true){
+  if(!SP.tok) return null;
+  if(Date.now() > SP.tok.exp){
+    try{ await spToken({ grant_type:'refresh_token', refresh_token:SP.tok.refresh }); }
+    catch(e){ SP.tok = null; spSave(); render(); toast('Conecte o Spotify de novo nos Ajustes'); return null; }
+  }
+  const r = await fetch('https://api.spotify.com/v1' + path, { ...opt, headers:{ Authorization:'Bearer ' + SP.tok.access, ...(opt.body ? { 'Content-Type':'application/json' } : {}) } });
+  if(r.status === 401 && retry){ SP.tok.exp = 0; return spFetch(path, opt, false); }
+  return r;
+}
+async function spPoll(){
+  if(!SP.tok || document.hidden) return;
+  try{
+    const r = await spFetch('/me/player');
+    if(!r) return;
+    if(r.status === 204){ SP.now = { idle:true }; }
+    else if(r.ok){
+      const j = await r.json(), it = j.item || {};
+      const imgs = (it.album && it.album.images) || it.images || [];
+      SP.now = { playing:j.is_playing, title:it.name || '—', artist:(it.artists || []).map(a => a.name).join(', ') || (it.show && it.show.name) || '', img:(imgs[imgs.length - 1] || imgs[0] || {}).url || '', device:j.device && j.device.name };
+    }
+  }catch(e){}
+  spPaint();
+}
+function spStart(){ clearInterval(SP.poll); if(!SP.tok) return; spPoll(); SP.poll = setInterval(spPoll, 5000); }
+function spInner(){
+  const n = SP.now;
+  if(!n) return `<div class="cv">${SPI.note}</div><div class="tx"><i>SPOTIFY</i><b>Carregando…</b></div>`;
+  if(n.idle) return `<div class="cv">${SPI.note}</div><div class="tx"><i>SPOTIFY</i><b>Nada tocando</b><span>Toque ▶ para continuar de onde parou</span></div>
+    <div class="ctl"><button class="pp" data-act="sp-play" aria-label="Tocar">${SPI.play}</button></div>`;
+  return `<div class="cv" style="${n.img ? `background-image:url('${esc(n.img)}')` : ''}">${n.img ? '' : SPI.note}</div>
+    <div class="tx"><i>SPOTIFY${n.device ? ' · ' + esc(n.device) : ''}</i><b>${esc(n.title)}</b><span>${esc(n.artist)}</span></div>
+    <div class="ctl"><button data-act="sp-prev" aria-label="Música anterior">${SPI.prev}</button><button class="pp" data-act="${n.playing ? 'sp-pause' : 'sp-play'}" aria-label="${n.playing ? 'Pausar' : 'Tocar'}">${n.playing ? SPI.pause : SPI.play}</button><button data-act="sp-next" aria-label="Próxima música">${SPI.next}</button></div>`;
+}
+function spCard(){ return spEnabled() && SP.tok ? `<section class="sp glass" id="spcard" aria-label="Spotify">${spInner()}</section>` : ''; }
+function spPaint(){ const el = document.getElementById('spcard'); if(el) el.innerHTML = spInner(); }
+// sem aparelho ativo: acorda o Spotify do celular (ou o primeiro disponível)
+async function spWake(){
+  const r = await spFetch('/me/player/devices'); if(!r || !r.ok) return false;
+  const ds = (await r.json()).devices || [];
+  const d = ds.find(x => x.type === 'Smartphone') || ds[0];
+  if(!d){ toast('Abra o Spotify no celular e toque uma música uma vez'); return false; }
+  await spFetch('/me/player', { method:'PUT', body:JSON.stringify({ device_ids:[d.id], play:true }) });
+  return true;
+}
+async function spCmd(act){
+  const map = { 'sp-play':['PUT','/me/player/play'], 'sp-pause':['PUT','/me/player/pause'], 'sp-next':['POST','/me/player/next'], 'sp-prev':['POST','/me/player/previous'] };
+  const [method, path] = map[act];
+  if(SP.now && !SP.now.idle && (act === 'sp-play' || act === 'sp-pause')){ SP.now.playing = act === 'sp-play'; spPaint(); }
+  try{
+    const r = await spFetch(path, { method });
+    if(r && r.status === 404){ await spWake(); }
+    else if(r && r.status === 403){ toast('O Spotify recusou: precisa do Premium'); }
+  }catch(e){ toast('Spotify não respondeu'); }
+  setTimeout(spPoll, 500);
+}
+document.addEventListener('visibilitychange', () => { if(!document.hidden && SP.tok) spPoll(); });
+
+/* ---------- tela de abertura: só quando o app abre do zero (não ao voltar de outro app) ---------- */
+function showIntro(){
+  const el = document.getElementById('intro');
+  if(location.hash){ el.classList.add('off'); return; } // aberto por notificação: vai direto
+  const ci = cycleInfo(), plan = PLAN[todayKey()];
+  document.getElementById('introWk').textContent = (ci.notStarted ? 'Ciclo começa em breve' : `Semana ${ci.week} de ${ci.weeks}`) + ' · hoje: ' + (plan.type === 'rest' ? 'descanso' : (plan.tag || TYPES[plan.type].label));
+  const hide = () => el.classList.add('off');
+  el.addEventListener('click', hide, { once:true });
+  setTimeout(hide, 10000); // fica até o toque, ou some sozinha em 10 s
+}
 
 /* ---------- início ---------- */
 (function boot(){
   const L = lsLoad();
   S.program = L.program || defaultProgram();
   seed31();
-  S.pushCode = localStorage.getItem('treino-push') || '';
+  S.pushOn = !!localStorage.getItem('treino-push-on');
   S.drafts = L.drafts || {}; S.sessions = L.sessions || []; S.pain = L.pain || [];
   Object.keys(S.drafts).forEach(k => { if(!S.drafts[k] || S.drafts[k].date !== ymd()) delete S.drafts[k]; });
   const h = location.hash.slice(1); if(['treino','progresso','joelho','guia'].includes(h)) S.tab = h;
+  spLoad();
+  const spBack = location.search.includes('code=') || location.search.includes('error=');
   render();
-  initDb();
+  if(spBack) document.getElementById('intro').classList.add('off'); else showIntro();
+  spHandleRedirect().then(back => { if(!back) spStart(); });
+  persistStorage();
   
 })();
 </script>
