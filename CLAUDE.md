@@ -59,3 +59,12 @@ mesma base de código e as mesmas funções, portadas em 2026-11-05.
 ## Teste local
 
 `.claude/launch.json` de `K:\CLAUDE` tem `treino-kika` (porta 8791).
+
+## Trocar de treino (novo ciclo)
+
+O plano fica na constante `PLAN` de `index.html` (um objeto por dia, com a lista de exercícios). Para trocar:
+1. Receber o treino novo (foto, PDF ou texto do professor, ou montar junto), mostrar a proposta e esperar a aprovação.
+2. Reescrever só o `PLAN` (e o texto do Guia, se mudar a lógica). **Manter o mesmo `id` para o exercício que
+   continua** (assim o histórico de carga e o gráfico de evolução seguem), e usar `id` novo só para exercício novo.
+3. Subir a versão do `CACHE` no `sw.js`, testar no navegador local, publicar.
+4. No app: Ajustes → "Começar novo ciclo hoje" (zera o contador de semanas; o histórico fica).
