@@ -298,6 +298,50 @@ nav.tabs{ position:fixed; left:0; right:0; bottom:0; z-index:21; padding:8px 12p
 .install .tx{ flex:1; font-size:13.5px; color:var(--muted); } .install .tx b{ display:block; color:var(--text); font-size:15px; }
 .install .btn{ width:auto; flex-shrink:0; }
 .optrow input[type=time]{ height:42px; border-radius:12px; border:1px solid var(--stroke2); background:var(--glass-a); padding:0 10px; color:var(--text); }
+/* seletor Treino | Ciclo dentro de Progresso */
+.seg2{ display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:4px; margin-bottom:12px; border-radius:18px; background:var(--glass-b); border:1px solid var(--stroke); }
+.seg2 button{ height:42px; border:0; border-radius:14px; background:none; color:var(--muted); font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; gap:7px; }
+.seg2 button svg{ width:18px; height:18px; }
+.seg2 button[aria-selected=true]{ background:var(--acc); color:#fff; box-shadow:0 8px 18px -10px var(--acc); }
+[data-theme=dark] .seg2{ background:rgba(255,255,255,.05); }
+/* aba Ciclo */
+.cy-hero{ display:flex; gap:16px; align-items:center; }
+.cy-ring{ width:136px; height:136px; flex-shrink:0; position:relative; }
+.cy-ring svg{ width:100%; height:100%; display:block; }
+.cy-ring .ctr{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.cy-ring .ctr small{ font-size:11px; color:var(--muted); font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+.cy-ring .ctr b{ font-family:var(--display); font-size:34px; font-weight:800; line-height:1.05; }
+.cy-ph{ display:inline-flex; align-items:center; gap:7px; font-weight:700; color:var(--c); font-size:15px; }
+.cy-ph i{ width:10px; height:10px; border-radius:50%; background:var(--c); flex-shrink:0; }
+.cy-next{ font-size:13px; color:var(--muted); margin-top:6px; line-height:1.45; }
+.cy-next b{ color:var(--text); font-weight:600; }
+.cy-acts{ display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.cy-acts .btn{ flex:1; min-width:140px; }
+.cy-lbl{ font-size:13px; font-weight:700; color:var(--muted); margin:14px 0 8px; }
+.emo{ display:flex; gap:6px; }
+.emo button{ flex:1; height:48px; border-radius:14px; border:1px solid var(--stroke2); background:var(--glass-a); font-size:22px; line-height:1; transition:transform .15s; }
+.emo button[aria-pressed=true]{ background:color-mix(in srgb,var(--acc) 22%,transparent); border-color:var(--acc); transform:scale(1.06); }
+.cy-tip{ border-left:4px solid var(--c); }
+.cy-tip h3{ display:flex; align-items:center; gap:8px; }
+.cal .cd.cy-m{ background:#e0607e; color:#fff; font-weight:800; }
+.cal .cd.cy-mp{ box-shadow:inset 0 0 0 2px #e0607e; color:#e0607e; background:transparent; }
+.cal .cd.cy-f{ background:color-mix(in srgb,#8e7cc3 22%,transparent); color:#6a55b3; }
+.cal .cd.cy-o{ background:#8e7cc3; color:#fff; font-weight:800; }
+.cal .cd.cy-t{ background:color-mix(in srgb,#ec8670 16%,transparent); }
+.cal .cd .lg{ position:absolute; bottom:4px; left:50%; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:currentColor; opacity:.7; }
+.cy-row{ display:grid; grid-template-columns:1fr 52px 52px 52px; gap:6px; align-items:center; padding:10px 0; border-bottom:1px solid var(--stroke2); font-size:13px; }
+.cy-row:last-child{ border-bottom:0; }
+.cy-row.h{ font-size:11px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.04em; padding-top:0; }
+.cy-row span:not(:first-child){ text-align:center; font-variant-numeric:tabular-nums; }
+.cy-ban{ display:flex; align-items:center; gap:12px; padding:12px 14px; margin-bottom:12px; width:100%; text-align:left; border:1px solid var(--stroke); color:inherit; }
+.cy-ban .dot{ width:36px; height:36px; border-radius:12px; flex-shrink:0; display:grid; place-items:center; background:color-mix(in srgb,var(--c) 20%,transparent); color:var(--c); font-weight:800; font-size:13px; }
+.cy-ban .tx{ flex:1; min-width:0; font-size:12.5px; color:var(--muted); line-height:1.4; }
+.cy-ban .tx b{ display:block; color:var(--text); font-size:14px; }
+.cy-hist li{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.field input.cy-num{ width:100%; height:48px; border-radius:14px; border:1px solid var(--stroke2); background:var(--glass-a); padding:0 14px; }
+.cy-warn{ font-size:12px; color:var(--muted); text-align:center; margin:4px 8px 14px; line-height:1.5; }
+[data-theme=dark] .emo button{ background:rgba(255,255,255,.06); }
+[data-theme=dark] .cal .cd.cy-f{ color:#c3b6ec; }
 /* mini player do Spotify */
 .sp{ display:flex; align-items:center; gap:12px; padding:10px 12px; margin-bottom:12px; border-radius:22px; }
 .sp .cv{ width:48px; height:48px; border-radius:12px; flex-shrink:0; background:var(--glass-a) center/cover; display:grid; place-items:center; }
@@ -515,6 +559,7 @@ const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(
 
 const BALL = (sz=14) => `<svg class="ballsvg" width="${sz}" height="${sz}" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" fill="#ffb86b"/>${[0,120,240].map(a => `<path d="M0 0L${(11*Math.cos((a-30)*Math.PI/180)).toFixed(2)} ${(11*Math.sin((a-30)*Math.PI/180)).toFixed(2)}A11 11 0 0 1 ${(11*Math.cos((a+30)*Math.PI/180)).toFixed(2)} ${(11*Math.sin((a+30)*Math.PI/180)).toFixed(2)}Z" fill="#a98bff"/>`).join('')}<circle r="3.2" fill="#ffb86b"/><circle r="11" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6"/></svg>`;
 const ICON = {
+  drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3.3 4.1 6 7.3 6 10.6a6 6 0 0 1-12 0c0-3.3 2.7-6.5 6-10.6z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.6 2.6"/></svg>',
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   dumb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>',
@@ -536,7 +581,7 @@ function seed31(){}
 /* ---------- armazenamento ---------- */
 const LS = 'treino-erika-v1';
 function lsLoad(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
-function lsSave(){ try{ localStorage.setItem(LS, JSON.stringify({program:S.program, drafts:S.drafts, sessions:S.sessions, pain:S.pain})); }catch(e){} }
+function lsSave(){ try{ localStorage.setItem(LS, JSON.stringify({program:S.program, drafts:S.drafts, sessions:S.sessions, pain:S.pain, cycle:S.cycle})); }catch(e){} }
 // tudo fica no aparelho (localStorage). Backup por copiar/colar nos Ajustes.
 function saveProgram(){ lsSave(); }
 function saveDrafts(){ lsSave(); }
@@ -605,6 +650,7 @@ function setAcc(){
   let c = PLAN[S.day].type === 'sup' ? TYPES.sup.c : TYPES.inf.c;
   if(S.tab === 'joelho') c = TYPES.sup.c;
   if(S.tab === 'progresso' || S.tab === 'guia') c = TYPES.inf.c;
+  if(S.tab === 'progresso' && S.prog === 'ciclo') c = TYPES.sup.c;
   document.documentElement.style.setProperty('--acc', c);
 }
 function render(){
@@ -633,9 +679,9 @@ function render(){
     html += `<div class="week" role="tablist" aria-label="Dias da semana">` + weekState().map(w => {
       const c = TYPES[PLAN[w.k].type].c, rest = PLAN[w.k].type === 'rest';
       return `<button class="wd ${w.k===S.day?'sel':''} ${w.today?'today':''} ${w.done?'done':''} ${w.part?'part':''} ${rest?'off':''}" style="--c:${c}" data-act="day" data-day="${w.k}" role="tab" aria-selected="${w.k===S.day}" aria-label="${DFULL[w.k]}${w.done?', concluído':''}"><div class="l">${DLABEL[w.k]}</div>${hasFut(dateOfDay(w.k)) ? `<i class="fb">${BALL(13)}</i>` : ''}<div class="s">${w.done?ICON.check.replace('stroke-width="3"','stroke-width="3.5" width="12" height="12"'):''}</div></button>`;
-    }).join('') + `</div>` + installCard() + spCard() + viewTreino();
+    }).join('') + `</div>` + installCard() + cyBanner() + spCard() + viewTreino();
   }
-  if(S.tab === 'progresso') html += viewProgresso(ci);
+  if(S.tab === 'progresso') html += `<div class="seg2" role="tablist" aria-label="Progresso"><button data-act="prog" data-v="treino" role="tab" aria-selected="${S.prog !== 'ciclo'}">${ICON.chart}Treino</button><button data-act="prog" data-v="ciclo" role="tab" aria-selected="${S.prog === 'ciclo'}">${ICON.drop}Ciclo</button></div>` + (S.prog === 'ciclo' ? viewCiclo() : viewProgresso(ci));
   if(S.tab === 'joelho') html += viewJoelho();
   if(S.tab === 'guia') html += viewGuia();
   $app.innerHTML = html;
@@ -849,6 +895,207 @@ function viewGuia(){
   <div class="rules">${rules.map(([e,t,p]) => `<div class="rule glass"><div class="e" aria-hidden="true">${e}</div><b>${t}</b><p>${p}</p></div>`).join('')}</div>`;
 }
 
+/* ---------- ciclo menstrual (dados só no aparelho) ----------
+   Fases estimadas pela média dos ciclos registrados (ou 28 dias até ter histórico):
+   menstrual (dias de fluxo) · folicular · período fértil (ovulação −5 a +1) · ovulação (≈ duração − 14) · lútea · TPM (últimos 6 dias).
+   Não é método contraceptivo nem diagnóstico. */
+const CY_PH = {
+  menstrual:{ c:'#e0607e', label:'Menstruação' },
+  folicular:{ c:'#2a9d84', label:'Fase folicular' },
+  fertil:{ c:'#8e7cc3', label:'Período fértil' },
+  ovulacao:{ c:'#7a62c9', label:'Ovulação (estimada)' },
+  lutea:{ c:'#d9953f', label:'Fase lútea' },
+  tpm:{ c:'#ec8670', label:'TPM' },
+  atraso:{ c:'#b56576', label:'Menstruação atrasada' }
+};
+const CY_TIP = {
+  menstrual:['Ouça o corpo','Energia pode estar mais baixa. Se estiver bem, treine normal. Com cólica ou lombar sensível, reduza a carga, fique na ativação com elástico e capriche no core sem flexionar a coluna.'],
+  folicular:['Fase boa para progredir','Energia e recuperação em alta. É a melhor fase para tentar subir carga ou repetições, sempre respeitando os 90° no joelho.'],
+  fertil:['Força em alta, joelho no controle','O estrogênio alto aumenta a força, mas deixa ligamentos mais frouxos. Movimento lento e controlado, joelho alinhado com o elástico e nada de carga máxima.'],
+  ovulacao:['Pico de força, cuidado com o joelho','Dia de mais força, e também de articulações mais frouxas. Mantenha a técnica impecável nos exercícios de perna.'],
+  lutea:['Mantenha, sem forçar','O corpo esquenta e o esforço parece maior. Repita as cargas da semana anterior, hidrate-se bem e foque na técnica.'],
+  tpm:['Tudo bem ir mais leve','Inchaço, cansaço e sensibilidade são comuns. Reduzir carga ou uma série não atrapalha: constância vale mais que intensidade.'],
+  atraso:['Ciclo atrasado','Pode ser estresse, sono ou treino. Se o atraso continuar ou vier com sintomas diferentes, vale falar com o ginecologista.']
+};
+const CY_SYM = [['colica','Cólica'],['inchaco','Inchaço'],['cabeca','Dor de cabeça'],['lombar','Lombar'],['seios','Seios sensíveis'],['acne','Acne'],['sono','Sono ruim'],['ansiedade','Ansiedade'],['fome','Mais fome'],['libido','Libido alta']];
+const CY_NA = { menstrual:'na <b>menstruação</b>', folicular:'na <b>fase folicular</b>', fertil:'no <b>período fértil</b>', lutea:'na <b>fase lútea</b>', tpm:'na <b>TPM</b>' };
+const CY_E = ['😫','😕','😐','🙂','🤩'], CY_M = ['😢','😟','😐','😊','😄'];
+const cyDefault = () => ({ periods:[], logs:{}, len:28, plen:5 });
+const cyStarts = () => S.cycle.periods.map(p => p.start).sort();
+const cyAvg = a => a.reduce((x, y) => x + y, 0) / a.length;
+function cyStats(){
+  const st = cyStarts(), diffs = [];
+  for(let i = 1; i < st.length; i++){ const d = dayDiff(parseYmd(st[i]), parseYmd(st[i-1])); if(d >= 20 && d <= 45) diffs.push(d); }
+  const l6 = diffs.slice(-6);
+  const pl = S.cycle.periods.filter(p => p.end).map(p => dayDiff(parseYmd(p.end), parseYmd(p.start)) + 1).filter(x => x >= 2 && x <= 10).slice(-6);
+  return { len: l6.length ? Math.round(cyAvg(l6)) : S.cycle.len, plen: pl.length ? Math.round(cyAvg(pl)) : S.cycle.plen, n: l6.length };
+}
+function cyPhase(day, clen, mlen){
+  const ov = clen - 14;
+  if(day <= mlen) return 'menstrual';
+  if(day === ov) return 'ovulacao';
+  if(day >= ov - 5 && day <= ov + 1) return 'fertil';
+  if(day < ov) return 'folicular';
+  if(day > clen - 6) return 'tpm';
+  return 'lutea';
+}
+// informação de um dia: dia do ciclo, fase, se é previsão e se está atrasada
+function cyInfo(dateStr){
+  const st = cyStarts(); if(!st.length) return null;
+  const stats = cyStats(), today = ymd();
+  let i = -1; st.forEach((x, k) => { if(x <= dateStr) i = k; });
+  if(i < 0) return null;
+  let start = st[i];
+  let clen = i + 1 < st.length ? dayDiff(parseYmd(st[i+1]), parseYmd(start)) : stats.len;
+  let day = dayDiff(parseYmd(dateStr), parseYmd(start)) + 1, predicted = dateStr > today, late = 0;
+  const isLast = i + 1 >= st.length;
+  if(isLast && day > clen){
+    const lateNow = Math.max(0, dayDiff(parseYmd(today), parseYmd(start)) + 1 - clen);
+    if(dateStr <= today) late = day - clen;
+    else {
+      const s0 = addDays(parseYmd(start), clen + lateNow), k = dayDiff(parseYmd(dateStr), s0);
+      if(k < 0) late = day - clen;
+      else { start = ymd(addDays(s0, Math.floor(k / stats.len) * stats.len)); day = (k % stats.len) + 1; clen = stats.len; }
+    }
+  }
+  const per = S.cycle.periods.find(p => p.start === start);
+  let mlen;
+  if(per && per.end) mlen = dayDiff(parseYmd(per.end), parseYmd(start)) + 1;
+  else if(per && !per.end) mlen = Math.min(10, Math.max(stats.plen, dayDiff(parseYmd(today), parseYmd(start)) + 1));
+  else mlen = stats.plen;
+  const ph = late ? 'atraso' : cyPhase(day, clen, mlen);
+  return { day, clen, mlen, start, ph, predicted: predicted || !per, late, ov: clen - 14, real: !!per };
+}
+const cyOngoing = () => S.cycle.periods.find(p => !p.end && dayDiff(new Date(), parseYmd(p.start)) < 10);
+function cyNext(){
+  const t = cyInfo(ymd()); if(!t) return null;
+  const stats = cyStats();
+  const nextStart = t.late ? null : addDays(parseYmd(t.start), t.clen);
+  let fs = addDays(parseYmd(t.start), t.ov - 6), fe = addDays(parseYmd(t.start), t.ov);
+  if(fe < parseYmd(ymd())){ const ns = nextStart || new Date(); fs = addDays(ns, stats.len - 20); fe = addDays(ns, stats.len - 14); }
+  return { t, nextStart, fs, fe, days: nextStart ? dayDiff(nextStart, new Date()) : null };
+}
+function cyRing(t){
+  const R = 54, C = 2 * Math.PI * R, n = t.clen, seg = C / n, gap = Math.min(2.2, seg * .25);
+  let arcs = '';
+  for(let d = 1; d <= n; d++){
+    const ph = cyPhase(d, n, t.mlen), off = -(d - 1) * seg;
+    arcs += `<circle cx="68" cy="68" r="${R}" fill="none" stroke="${CY_PH[ph].c}" stroke-width="${d === t.day ? 16 : 11}" stroke-dasharray="${(seg - gap).toFixed(2)} ${(C - seg + gap).toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}" opacity="${d === t.day ? 1 : d < t.day ? .9 : .38}" transform="rotate(-90 68 68)"/>`;
+  }
+  const a = ((Math.min(t.day, n) - .5) / n) * 2 * Math.PI - Math.PI / 2;
+  const mx = 68 + R * Math.cos(a), my = 68 + R * Math.sin(a);
+  return `<svg viewBox="0 0 136 136" role="img" aria-label="Dia ${t.day} de ${n} do ciclo">${arcs}<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="6" fill="#fff" stroke="${CY_PH[t.ph].c}" stroke-width="3"/></svg>`;
+}
+function cyBanner(){
+  if(!S.cycle || !S.cycle.periods.length) return '';
+  const t = cyInfo(ymd()); if(!t) return '';
+  const P = CY_PH[t.ph], tip = CY_TIP[t.ph];
+  return `<button class="cy-ban glass" style="--c:${P.c}" data-act="tab" data-tab="progresso" data-prog="ciclo"><span class="dot">${t.late ? '+' + t.late : t.day}</span><span class="tx"><b>${P.label}${t.late ? '' : ' · dia ' + t.day}</b>${tip[0]}: ${tip[1].split('. ')[0]}.</span><span class="chev">›</span></button>`;
+}
+function viewCiclo(){
+  const C = S.cycle, today = ymd(), stats = cyStats();
+  let h = '';
+  if(!C.periods.length){
+    return `<section class="card glass"><h3>Vamos começar</h3><p class="hint">Quando começou sua última menstruação? Com essa data o app estima as fases do ciclo e mostra como elas se relacionam com o seu treino.</p>
+      <div class="field"><label for="cyFirst">Primeiro dia da última menstruação</label><input type="date" id="cyFirst" max="${today}" value="${today}"></div>
+      <div class="field"><label for="cyLen0">Duração média do ciclo (dias)</label><input type="number" id="cyLen0" inputmode="numeric" min="20" max="45" value="${C.len}" class="cy-num"></div>
+      <div class="field"><label for="cyPlen0">Duração média da menstruação (dias)</label><input type="number" id="cyPlen0" inputmode="numeric" min="2" max="10" value="${C.plen}" class="cy-num"></div>
+      <button class="btn" data-act="cy-first">Começar</button></section>
+      <p class="cy-warn">Os dados do ciclo ficam só neste celular. As fases são estimativas: não servem como método contraceptivo nem substituem o ginecologista.</p>`;
+  }
+  const nx = cyNext(), t = nx.t, P = CY_PH[t.ph], ong = cyOngoing();
+  const fmtL = d => d.toLocaleDateString('pt-BR', { day:'numeric', month:'short' }).replace('.', '');
+  h += `<section class="card glass"><div class="cy-hero">
+      <div class="cy-ring">${cyRing(t)}<div class="ctr"><small>${t.late ? 'atraso' : 'dia'}</small><b>${t.late ? '+' + t.late : t.day}</b><small>${t.late ? 'dias' : 'de ' + t.clen}</small></div></div>
+      <div><span class="cy-ph" style="--c:${P.c}"><i></i>${P.label}</span>
+        <div class="cy-next">${t.late ? `A menstruação era esperada há <b>${t.late} ${t.late === 1 ? 'dia' : 'dias'}</b>.` : nx.days === 0 ? 'Menstruação prevista para <b>hoje</b>.' : `Próxima menstruação em <b>~${nx.days} ${nx.days === 1 ? 'dia' : 'dias'}</b> (${fmtL(nx.nextStart)}).`}<br>Período fértil: <b>${fmtL(nx.fs)} a ${fmtL(nx.fe)}</b>.</div></div></div>
+    <div class="cy-acts">${ong ? `<button class="btn" data-act="cy-end">Menstruação terminou hoje</button>` : `<button class="btn" data-act="cy-start">Menstruação começou hoje</button>`}<button class="btn ghost" data-act="cy-other">Outra data</button></div>
+    ${S.cyOther ? `<div class="field" style="margin:12px 0 0"><label for="cyDate">Data</label><input type="date" id="cyDate" max="${today}" value="${today}"></div><div class="row" style="margin-top:8px"><button class="btn sm" data-act="cy-start-at">Marcar início</button>${ong ? '<button class="btn sm ghost" data-act="cy-end-at">Marcar fim</button>' : ''}</div>` : ''}
+  </section>`;
+  // dica de treino da fase
+  const tip = CY_TIP[t.ph];
+  h += `<section class="card glass cy-tip" style="--c:${P.c}"><h3>🏋️‍♀️ ${tip[0]}</h3><p class="hint" style="margin:0">${tip[1]}</p></section>`;
+  // check-in do dia
+  const L = C.logs[today] || {};
+  h += `<section class="card glass"><h3>Como você está hoje?</h3><p class="hint" style="margin:0">Leva 5 segundos e é o que mostra o paralelo do ciclo com o treino.</p>
+    <div class="cy-lbl">Energia</div><div class="emo">${CY_E.map((e, i) => `<button data-act="cy-log" data-f="e" data-v="${i+1}" aria-pressed="${L.e === i+1}" aria-label="Energia ${i+1} de 5">${e}</button>`).join('')}</div>
+    <div class="cy-lbl">Humor</div><div class="emo">${CY_M.map((e, i) => `<button data-act="cy-log" data-f="m" data-v="${i+1}" aria-pressed="${L.m === i+1}" aria-label="Humor ${i+1} de 5">${e}</button>`).join('')}</div>
+    ${t.ph === 'menstrual' ? `<div class="cy-lbl">Fluxo</div><div class="ctx">${['Leve','Médio','Forte'].map(f => `<button data-act="cy-log" data-f="flow" data-v="${f}" aria-pressed="${L.flow === f}">${f}</button>`).join('')}</div>` : ''}
+    <div class="cy-lbl">Sintomas</div><div class="ctx">${CY_SYM.map(([k, l]) => `<button data-act="cy-sym" data-s="${k}" aria-pressed="${(L.sym || []).includes(k)}">${l}</button>`).join('')}</div></section>`;
+  // calendário com as fases
+  h += cyCalendar();
+  // paralelo com o treino
+  h += cyInsights();
+  // ajustes e histórico
+  const hist = [...C.periods].sort((a, b) => b.start.localeCompare(a.start)).slice(0, 8);
+  h += `<section class="card glass"><h3>Seus ciclos</h3><p class="hint">${stats.n ? `Média dos últimos ${stats.n + 1} registros: ciclo de <b>${stats.len} dias</b>, menstruação de <b>${stats.plen} dias</b>.` : 'Até ter dois ciclos registrados, o app usa as durações abaixo.'}</p>
+    <div class="row" style="gap:10px;margin-bottom:12px"><div class="field" style="flex:1;margin:0"><label for="cyLen">Ciclo (dias)</label><input type="number" id="cyLen" data-k="cyLen" inputmode="numeric" min="20" max="45" value="${C.len}" class="cy-num"></div>
+    <div class="field" style="flex:1;margin:0"><label for="cyPlen">Menstruação (dias)</label><input type="number" id="cyPlen" data-k="cyPlen" inputmode="numeric" min="2" max="10" value="${C.plen}" class="cy-num"></div></div>
+    <ul class="hist cy-hist">${hist.map(p => `<li><span><span class="dot" style="--c:#e0607e"></span>${fmtDate(p.start)}${p.end ? ' a ' + fmtDate(p.end) : ' · em andamento'}</span><button class="tbtn" data-act="cy-del" data-start="${p.start}" aria-label="Apagar registro de ${fmtDate(p.start)}">Apagar</button></li>`).join('')}</ul></section>
+  <p class="cy-warn">Os dados do ciclo ficam só neste celular. As fases são estimativas: não servem como método contraceptivo nem substituem o ginecologista.</p>`;
+  return h;
+}
+function cyCalendar(){
+  const now = new Date(), off = S.cyM || 0;
+  const first = new Date(now.getFullYear(), now.getMonth() + off, 1), y = first.getFullYear(), m = first.getMonth();
+  const nDays = new Date(y, m + 1, 0).getDate(), today = ymd();
+  let cells = '';
+  for(let i = 0; i < first.getDay(); i++) cells += '<span class="cd blank"></span>';
+  for(let d = 1; d <= nDays; d++){
+    const key = ymd(new Date(y, m, d)), t = cyInfo(key), lg = S.cycle.logs[key];
+    let cls = 'cd';
+    if(t){
+      if(t.ph === 'menstrual') cls += t.real && key <= today ? ' cy-m' : ' cy-mp';
+      else if(t.ph === 'ovulacao') cls += ' cy-o';
+      else if(t.ph === 'fertil') cls += ' cy-f';
+      else if(t.ph === 'tpm') cls += ' cy-t';
+    }
+    if(key === today) cls += ' today';
+    if(key > today) cls += ' fut';
+    cells += `<span class="${cls}" aria-label="${d}${t ? ', ' + CY_PH[t.ph].label : ''}">${d}${lg ? '<i class="lg"></i>' : ''}</span>`;
+  }
+  return `<section class="card glass"><div class="cal-top"><h3>${MONTHS[m]} ${y}</h3><div class="cal-nav"><button data-act="cy-calm" data-d="-1" aria-label="Mês anterior">‹</button><button data-act="cy-calm" data-d="1" aria-label="Próximo mês" ${off >= 3 ? 'disabled' : ''}>›</button></div></div>
+    <div class="cal-wk">${['dom','seg','ter','qua','qui','sex','sáb'].map(x => `<span>${x}</span>`).join('')}</div><div class="cal">${cells}</div>
+    <div class="cal-leg"><span><i style="--c:#e0607e"></i>Menstruação</span><span><i style="--c:#8e7cc3"></i>Fértil</span><span><i style="--c:#7a62c9"></i>Ovulação</span><span><i style="--c:#ec8670"></i>TPM</span></div>
+    <p class="hint" style="margin:10px 0 0">Círculo vazado = previsão. Pontinho = dia com check-in.</p></section>`;
+}
+function cyInsights(){
+  const groups = ['menstrual','folicular','fertil','lutea','tpm'], G = {};
+  groups.forEach(g => G[g] = { tr:0, sets:0, pain:[], e:[] });
+  const gOf = date => { const t = cyInfo(date); if(!t || t.predicted || t.late) return null; return t.ph === 'ovulacao' ? 'fertil' : t.ph; };
+  S.sessions.forEach(x => { const g = gOf(x.date); if(g){ G[g].tr++; G[g].sets += x.sets || 0; } });
+  S.pain.forEach(x => { const g = gOf(x.date); if(g) G[g].pain.push(x.value); });
+  Object.entries(S.cycle.logs).forEach(([d, l]) => { const g = gOf(d); if(g && l.e) G[g].e.push(l.e); });
+  const total = groups.reduce((a, g) => a + G[g].tr + G[g].e.length + G[g].pain.length, 0);
+  let h = `<section class="card glass"><h3>Ciclo × treino</h3>`;
+  if(total < 6){
+    return h + `<p class="hint" style="margin:0">Aqui aparece como o ciclo mexe com o seu treino: treinos feitos, energia e dor em cada fase. Continue treinando e fazendo o check-in. Em algumas semanas os padrões começam a aparecer.</p></section>`;
+  }
+  const f = v => v.length ? fmtNum(cyAvg(v)) : '–';
+  h += `<p class="hint">Médias por fase, com os seus registros.</p><div class="cy-row h"><span>Fase</span><span>Treinos</span><span>Energia</span><span>Dor</span></div>`;
+  h += groups.map(g => `<div class="cy-row"><span class="cy-ph" style="--c:${CY_PH[g].c};font-size:13px"><i></i>${CY_PH[g].label.replace(' (estimada)', '')}</span><span>${G[g].tr}</span><span>${f(G[g].e)}</span><span>${f(G[g].pain)}</span></div>`).join('');
+  // destaques
+  const withE = groups.filter(g => G[g].e.length >= 2), withP = groups.filter(g => G[g].pain.length >= 2), notes = [];
+  if(withE.length >= 2){ const lo = withE.reduce((a, b) => cyAvg(G[a].e) <= cyAvg(G[b].e) ? a : b), hi = withE.reduce((a, b) => cyAvg(G[a].e) >= cyAvg(G[b].e) ? a : b); if(lo !== hi) notes.push(`Sua energia é menor ${CY_NA[lo]} (${f(G[lo].e)}) e maior ${CY_NA[hi]} (${f(G[hi].e)}).`); }
+  if(withP.length >= 2){ const hi = withP.reduce((a, b) => cyAvg(G[a].pain) >= cyAvg(G[b].pain) ? a : b); notes.push(`A dor no joelho/lombar é mais alta ${CY_NA[hi]} (média ${f(G[hi].pain)} de 10).`); }
+  if(notes.length) h += `<div class="alert good" style="margin:12px 0 0">${notes.join('<br>')}</div>`;
+  return h + `</section>`;
+}
+function cyAddStart(date){
+  const C = S.cycle, plen = cyStats().plen;
+  if(C.periods.some(p => p.start === date)){ toast('Esse início já está registrado'); return; }
+  // fecha a menstruação anterior que ficou sem fim
+  C.periods.forEach(p => { if(!p.end && p.start < date){ const e = addDays(parseYmd(p.start), plen - 1); p.end = ymd(e < parseYmd(date) ? e : addDays(parseYmd(date), -1)); } });
+  C.periods.push({ start:date });
+  lsSave(); S.cyOther = false; render(); toast('Início da menstruação registrado');
+}
+function cyEnd(date){
+  const p = cyOngoing() || [...S.cycle.periods].filter(x => !x.end).sort((a, b) => b.start.localeCompare(a.start))[0];
+  if(!p){ toast('Nenhuma menstruação em andamento'); return; }
+  if(date < p.start){ toast('O fim não pode ser antes do início'); return; }
+  p.end = date; lsSave(); S.cyOther = false; render(); toast('Fim da menstruação registrado');
+}
+
 function renderTabs(){
   const tabs = [['treino','Treino',ICON.dumb],['progresso','Progresso',ICON.chart],['joelho','Dor',ICON.knee],['guia','Guia',ICON.book]];
   document.getElementById('tabs').innerHTML = tabs.map(([k,l,i]) => `<button data-act="tab" data-tab="${k}" ${S.tab===k?'aria-current="page"':''}>${i}${l}</button>`).join('');
@@ -1038,7 +1285,8 @@ document.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if(!b) return;
   const act = b.dataset.act;
   if(act === 'day'){ S.day = b.dataset.day; S.redo = false; render(); }
-  else if(act === 'tab'){ S.tab = b.dataset.tab; render(); window.scrollTo({top:0}); }
+  else if(act === 'tab'){ S.tab = b.dataset.tab; if(b.dataset.prog) S.prog = b.dataset.prog; render(); window.scrollTo({top:0}); }
+  else if(act === 'prog'){ S.prog = b.dataset.v; render(); }
   else if(act === 'open'){ S.open[S.day] = S.open[S.day] === b.dataset.ex ? null : b.dataset.ex; render(); }
   else if(act === 'nextset' || act === 'undoset'){
     unlockAudio();
@@ -1091,6 +1339,22 @@ document.addEventListener('click', e => {
   else if(act === 'settings'){ renderSheet(); document.getElementById('sheet').classList.add('on'); }
   else if(act === 'push'){ subscribePush(); }
   else if(act === 'pushtest'){ pushTest(); }
+  else if(act === 'cy-first'){
+    const d = document.getElementById('cyFirst').value || ymd();
+    S.cycle.len = Math.min(45, Math.max(20, parseInt(document.getElementById('cyLen0').value, 10) || 28));
+    S.cycle.plen = Math.min(10, Math.max(2, parseInt(document.getElementById('cyPlen0').value, 10) || 5));
+    S.cycle.periods.push({ start:d }); if(dayDiff(new Date(), parseYmd(d)) >= S.cycle.plen) S.cycle.periods[0].end = ymd(addDays(parseYmd(d), S.cycle.plen - 1));
+    lsSave(); render(); toast('Ciclo configurado');
+  }
+  else if(act === 'cy-start'){ cyAddStart(ymd()); }
+  else if(act === 'cy-end'){ cyEnd(ymd()); }
+  else if(act === 'cy-other'){ S.cyOther = !S.cyOther; render(); }
+  else if(act === 'cy-start-at'){ const v = document.getElementById('cyDate').value; if(v) cyAddStart(v); }
+  else if(act === 'cy-end-at'){ const v = document.getElementById('cyDate').value; if(v) cyEnd(v); }
+  else if(act === 'cy-del'){ if(confirm('Apagar este registro de menstruação?')){ S.cycle.periods = S.cycle.periods.filter(p => p.start !== b.dataset.start); lsSave(); render(); toast('Registro apagado'); } }
+  else if(act === 'cy-calm'){ S.cyM = Math.min(3, (S.cyM || 0) + +b.dataset.d); render(); }
+  else if(act === 'cy-log'){ const L = S.cycle.logs[ymd()] = S.cycle.logs[ymd()] || {}; const f = b.dataset.f, v = f === 'flow' ? b.dataset.v : +b.dataset.v; L[f] = L[f] === v ? undefined : v; lsSave(); render(); }
+  else if(act === 'cy-sym'){ const L = S.cycle.logs[ymd()] = S.cycle.logs[ymd()] || {}; const k = b.dataset.s, a = L.sym = L.sym || []; const i = a.indexOf(k); if(i >= 0) a.splice(i, 1); else a.push(k); lsSave(); render(); }
   else if(act === 'sp-on'){ spConnect(); }
   else if(act === 'sp-off'){ SP.tok = null; SP.now = null; spSave(); clearInterval(SP.poll); renderSheet(); render(); toast('Spotify desconectado'); }
   else if(act.startsWith('sp-')){ spCmd(act); }
@@ -1102,7 +1366,7 @@ document.addEventListener('click', e => {
   else if(act === 'hideinstall'){ S.program.hideInstall = true; saveProgram(); render(); }
   else if(act === 'wake'){ S.program.wake = S.program.wake === false; saveProgram(); if(S.program.wake === false) wakeOff(); renderSheet(); }
   else if(act === 'export'){
-    const txt = JSON.stringify({app:'treino-erika', v:1, program:S.program, sessions:S.sessions, pain:S.pain});
+    const txt = JSON.stringify({app:'treino-erika', v:1, program:S.program, sessions:S.sessions, pain:S.pain, cycle:S.cycle});
     const ta = document.getElementById('bk'); ta.value = txt; ta.select();
     const ok = () => toast('Backup copiado. Cole na outra versão do app.');
     if(navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, () => toast('Selecionado. Copie o texto da caixa.')); else { try{ document.execCommand('copy'); ok(); }catch(e){ toast('Selecionado. Copie o texto da caixa.'); } }
@@ -1113,6 +1377,7 @@ document.addEventListener('click', e => {
     const ms = new Map(S.sessions.map(x => [x.id, x])); (B.sessions || []).forEach(x => ms.set(x.id, x)); S.sessions = [...ms.values()];
     const mp = new Map(S.pain.map(x => [x.id, x])); (B.pain || []).forEach(x => mp.set(x.id, x)); S.pain = [...mp.values()];
     if(B.program) S.program = Object.assign({}, B.program, {seed31:true});
+    if(B.cycle && B.cycle.periods) S.cycle = Object.assign(cyDefault(), B.cycle);
     saveProgram();
     lsSave(); renderSheet(); render(); toast((B.sessions || []).length + ' treinos importados');
   }
@@ -1139,6 +1404,7 @@ document.addEventListener('change', e => {
   if(k === 'start' && t.value){ S.program.start = t.value; saveProgram(); render(); }
   if(k === 'prior'){ S.program.prior = Math.max(0, parseInt(t.value, 10) || 0); saveProgram(); render(); }
   if(k === 'pain') render();
+  if(k === 'cyLen' || k === 'cyPlen'){ const v = parseInt(t.value, 10); if(v){ if(k === 'cyLen') S.cycle.len = Math.min(45, Math.max(20, v)); else S.cycle.plen = Math.min(10, Math.max(2, v)); lsSave(); render(); toast('Duração salva'); } }
   if((k === 'ram' || k === 'rpm') && t.value){ S.program.remind = Object.assign(remind(), { [k === 'ram' ? 'am' : 'pm']: t.value }); saveProgram(); if(S.pushOn) syncPush().then(() => toast('Horário salvo'), () => toast('Salvo no app; o servidor não respondeu')); else toast('Horário salvo'); }
 });
 
@@ -1260,8 +1526,9 @@ function showIntro(){
   seed31();
   S.pushOn = !!localStorage.getItem('treino-push-on');
   S.drafts = L.drafts || {}; S.sessions = L.sessions || []; S.pain = L.pain || [];
+  S.cycle = Object.assign(cyDefault(), L.cycle || {});
   Object.keys(S.drafts).forEach(k => { if(!S.drafts[k] || S.drafts[k].date !== ymd()) delete S.drafts[k]; });
-  const h = location.hash.slice(1); if(['treino','progresso','joelho','guia'].includes(h)) S.tab = h;
+  const h = location.hash.slice(1); if(['treino','progresso','joelho','guia'].includes(h)) S.tab = h; if(h === 'ciclo'){ S.tab = 'progresso'; S.prog = 'ciclo'; }
   spLoad();
   const spBack = location.search.includes('code=') || location.search.includes('error=');
   render();

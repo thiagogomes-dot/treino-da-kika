@@ -28,6 +28,21 @@ mesma base de código e as mesmas funções, portadas em 2026-11-05.
 - Tela de abertura: avatar, "Treino da Kika", "4x por semana, joelho e lombar protegidos.", semana e treino do dia.
 - Removido o código do Artifact (`window.claude`); `localStorage` `treino-erika-v1` mantido (dados dela preservados).
 
+## Ciclo menstrual (2026-11-05)
+
+- Fica em **Progresso → Ciclo** (seletor `.seg2` Treino | Ciclo; `S.prog`). O Thiago preferiu juntar com Progresso
+  a ter uma aba própria, e **reprovou o calendário único** (treino preenchido + anel do ciclo): "muito caótico".
+  Os calendários de treino e de ciclo ficam **separados**.
+- Dados em `S.cycle` = `{periods:[{start,end}], logs:{data:{e,m,flow,sym}}, len, plen}`, salvos no mesmo
+  `localStorage` e no backup. Fases por `cyInfo(data)`: menstrual, folicular, fértil (ovulação −5 a +1), ovulação
+  (duração − 14), lútea, TPM (últimos 6 dias), atraso. Médias pelos ciclos registrados (padrão 28/5).
+- Tela: anel do ciclo, próxima menstruação e período fértil, botões começou/terminou, dica de treino da fase
+  (pensada no joelho e na lombar dela), check-in (energia, humor, fluxo, sintomas), calendário de fases,
+  "Ciclo × treino" (treinos, energia e dor por fase), histórico e durações. Cartão da fase na tela de treino.
+- Referências de funcionamento: Garmin (ciclo + treino), FitrWoman, Wild.AI, Clue, Flo. Aviso: não é contraceptivo.
+- Próximo: aba **Dieta** (esperando o material da nutricionista e os remédios com horários; lembretes de remédio
+  pelo mesmo Worker).
+
 ## Teste local
 
 `.claude/launch.json` de `K:\CLAUDE` tem `treino-kika` (porta 8791).
